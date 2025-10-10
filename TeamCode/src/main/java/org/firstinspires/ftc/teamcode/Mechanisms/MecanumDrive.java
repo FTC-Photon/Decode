@@ -25,6 +25,8 @@ public class MecanumDrive {
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        W1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        W2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         imu = hwMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot RevOrientation = new RevHubOrientationOnRobot(
@@ -52,8 +54,6 @@ public class MecanumDrive {
         frontRight.setPower(frontRightPower);
         backLeft.setPower(backLeftPower);
         backRight.setPower(backRightPower);
-        // Wheel1.setPower(wheel1);
-        // Wheel2.setPower(wheel2);
     }
 
     public void driveFieldRelative(double forward, double strafe, double rotate){//wheel1 and wheel 2
