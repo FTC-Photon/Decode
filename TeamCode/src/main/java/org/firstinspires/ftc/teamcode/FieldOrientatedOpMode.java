@@ -43,5 +43,7 @@ public class FieldOrientatedOpMode extends OpMode {
        outtakePower = gamepad1.left_trigger; //score
 
         drive.driveFieldRelative(forward, strafe, rotate);
+        intakeHold.intakeHold(intakePower);
+        outtakeScore.outtakeScore(outtakePower);
     }
 }
