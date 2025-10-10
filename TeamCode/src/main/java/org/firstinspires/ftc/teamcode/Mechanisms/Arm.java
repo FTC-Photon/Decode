@@ -8,7 +8,7 @@ public class Arm {
     private static DcMotor arm;
 
     public static void init(HardwareMap map){
-        arm = map.get(DcMotor.class, "arm");
+        arm = map.get(DcMotor.class, "W3");
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
