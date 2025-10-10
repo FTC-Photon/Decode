@@ -28,19 +28,19 @@ public class FieldOrientatedOpMode extends OpMode {
         strafe = gamepad1.left_stick_x;
         rotate = gamepad1.right_stick_x;
 
-        if(gamepad1.a){
+        /*if(gamepad1.a){
             intakePower = 1;
         } else {
-         intakePower =0;}
+         intakePower = 0;}
 
         if(gamepad1.x){
             outtakePower =1;}
         else {
         outtakePower =0;
-        }
+        }*/
 
-        //intakePower = gamepad1.right_trigger; //intake
-       //outtakePower = gamepad1.left_trigger; //score
+        intakePower = gamepad1.right_trigger; //intake
+       outtakePower = gamepad1.left_trigger; //score
 
         drive.driveFieldRelative(forward, strafe, rotate);
     }
