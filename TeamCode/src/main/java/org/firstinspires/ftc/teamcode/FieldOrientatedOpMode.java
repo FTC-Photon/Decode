@@ -34,9 +34,9 @@ public class FieldOrientatedOpMode extends OpMode {
             outtakePower = -outtakePower;
         }//flip intake?? not sure if this works needs testing
         if (gamepad2.left_bumper){
-            outtakePower = -outtakePower;
+            outtakePower = -outtakePower;// same thing here as intake maybe
         }
-        drive.driveFieldRelative(forward, strafe, rotate);
+        drive.drive(forward, strafe, rotate);
         intakeHold.intakeHold(intakePower);
         outtakeScore.outtakeScore(outtakePower);// all the drive and foward intake and outtake should work
     }
