@@ -17,9 +17,9 @@ public class FieldOrientatedOpMode extends OpMode {
 
     @Override
     public void init() {
-        drive.init(hardwareMap);
+        drive.init(hardwareMap); //drive
         intakeHold.init(hardwareMap);//intake
-        outtakeScore.init(hardwareMap);
+        outtakeScore.init(hardwareMap);//outtake
     }
 
     @Override
@@ -28,22 +28,16 @@ public class FieldOrientatedOpMode extends OpMode {
         strafe = gamepad1.left_stick_x;
         rotate = gamepad1.right_stick_x;
 
-        /*if(gamepad1.a){
-            intakePower = 1;
-        } else {
-         intakePower = 0;}
-
-        if(gamepad1.x){
-            outtakePower =1;}
-        else {
-        outtakePower =0;
-        }*/
-
-        intakePower = gamepad1.right_trigger; //intake
-       outtakePower = gamepad1.left_trigger; //score
-
+        intakePower = gamepad2.right_trigger; //intake
+        outtakePower = gamepad2.left_trigger;//score
+        if (gamepad2.right_bumper) {
+            outtakePower = -outtakePower;
+        }//flip intake?? not sure if this works needs testing
+        if (gamepad2.left_bumper){
+            outtakePower = -outtakePower;
+        }
         drive.driveFieldRelative(forward, strafe, rotate);
         intakeHold.intakeHold(intakePower);
-        outtakeScore.outtakeScore(outtakePower);
+        outtakeScore.outtakeScore(outtakePower);// all the drive and foward intake and outtake should work
     }
 }
