@@ -225,7 +225,7 @@ class ForwardTuner extends OpMode {
  * @version 2.0, 6/26/2025
  */
 class LateralTuner extends OpMode {
-    public static double DISTANCE = 48;
+    public static double DISTANCE = 96;
 
     @Override
     public void init() {
@@ -323,7 +323,7 @@ class TurnTuner extends OpMode {
  */
 class ForwardVelocityTuner extends OpMode {
     private final ArrayList<Double> velocities = new ArrayList<>();
-    public static double DISTANCE = 48;
+    public static double DISTANCE = 96;
     public static double RECORD_NUMBER = 10;
 
     private boolean end;
