@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.teamcode.Mechanisms.Arm;
 import org.firstinspires.ftc.teamcode.Mechanisms.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Mechanisms.Score;
@@ -66,7 +64,7 @@ public class FieldOrientatedOpMode extends OpMode {
         drive.drive(forward, strafe, rotate);
         intakeHold.intakeHold(intakePower);
         outtakeScore.outtakeScore(outtakePower);// all the drive and foward intake and outtake should work
-        telemetry.addData("arm encorder", holdingArm.armPosition());
+        telemetry.addData("arm encorder", outtakeScore.scorePosition());
         telemetry.update();
     }
 }
