@@ -4,15 +4,16 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Mechanisms.Arm;
 import org.firstinspires.ftc.teamcode.Mechanisms.MecanumDrive;
+import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
 import org.firstinspires.ftc.teamcode.Mechanisms.Score;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 @TeleOp
 public class FieldOrientatedOpMode extends OpMode {
     MecanumDrive drive = new MecanumDrive();
     double forward, strafe, rotate;
-    double intakePower, outtakePower;
+    double intakePower, outtakePower, midtakePower;
     intake intakeHold = new intake(); //intake
-
+    Midtake midtakeHold = new Midtake();
     Arm holdingArm = new Arm();
     Score outtakeScore = new Score(); //score
 
@@ -22,6 +23,7 @@ public class FieldOrientatedOpMode extends OpMode {
         intakeHold.init(hardwareMap);//intake
         outtakeScore.init(hardwareMap);//outtake
         holdingArm.init(hardwareMap);
+        midtakeHold.init(hardwareMap);
     }
 
     @Override
@@ -38,15 +40,29 @@ public class FieldOrientatedOpMode extends OpMode {
         } else {
             intakePower = 0;
         }
-        //Having a Toggle for the outake makes it easier to operate
+
+        if (gamepad1.a) {
+            intakePower = 1;
+        } else if (gamepad1.b) {
+            intakePower = -1;
+        } else {
+            intakePower = 0;
+        }
+
         if (gamepad2.x) {
             outtakePower = 1;
         } else if (gamepad2.y) {
             outtakePower = -1;
-        } else if (gamepad2.start) {
-            outtakePower = 0; //Allows for outtake to be left on so the driver can focus on other elements
-        } else if (outtakePower == -1) {
-            outtakePower = 0; //Doesn't make sense for the toggle function to apply to spinning the wheel backwards
+        } else {
+            outtakePower = 0;
+        }
+
+        if (gamepad1.x) {
+            outtakePower = 1;
+        } else if (gamepad1.y) {
+            outtakePower = -1;
+        } else {
+            outtakePower = 0;
         }
 
         if (gamepad2.dpad_right) {
@@ -56,7 +72,13 @@ public class FieldOrientatedOpMode extends OpMode {
         }
 
 
-
+        if(gamepad1.dpad_up){
+            midtakePower = 1;
+        }else if(gamepad1.dpad_down){
+            midtakePower = -1;
+        } else{
+            midtakePower = 0;
+        }
 
 
 
@@ -64,6 +86,7 @@ public class FieldOrientatedOpMode extends OpMode {
         drive.drive(forward, strafe, rotate);
         intakeHold.intakeHold(intakePower);
         outtakeScore.outtakeScore(outtakePower);// all the drive and foward intake and outtake should work
+        midtakeHold.midtakeHold(midtakePower);
         telemetry.addData("arm encorder", outtakeScore.scorePosition());
         telemetry.update();
     }
