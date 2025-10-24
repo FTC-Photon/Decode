@@ -19,9 +19,9 @@ import java.util.regex.Pattern
 
 apply plugin: 'com.android.application'
 
-android {
+android 
 
-    compileSdkVersion 35
+    compileSdkVersion 34
 
     signingConfigs {
         release {
@@ -110,7 +110,7 @@ android {
         pickFirst '**/*.so'
     }
     ndkVersion '21.3.6528147'
-}
+
 
 repositories {
 }
