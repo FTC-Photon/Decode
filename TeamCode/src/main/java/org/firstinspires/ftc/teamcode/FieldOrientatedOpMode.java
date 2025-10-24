@@ -38,6 +38,6 @@ public class FieldOrientatedOpMode extends OpMode {
         }
         drive.drive(forward, strafe, rotate);
         intakeHold.intakeHold(intakePower);
-        outtakeScore.outtakeScore(outtakePower);// all the drive and foward intake and outtake should work
+        outtakeScore.outtakeScore(outtakePower);// all the drive and forward intake and outtake should work
     }
 }
