@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Mechanisms.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Mechanisms.Score;
@@ -31,13 +30,13 @@ public class FieldOrientatedOpMode extends OpMode {
         intakePower = gamepad2.right_trigger; //intake
         outtakePower = gamepad2.left_trigger;//score
         if (gamepad2.right_bumper) {
-            outtakePower = -outtakePower;
+            intakePower = -intakePower;
         }//flip intake?? not sure if this works needs testing
         if (gamepad2.left_bumper){
             outtakePower = -outtakePower;// same thing here as intake maybe
         }
         drive.drive(forward, strafe, rotate);
         intakeHold.intakeHold(intakePower);
-        outtakeScore.outtakeScore(outtakePower);// all the drive and foward intake and outtake should work
+        outtakeScore.outtakeScore(outtakePower);// all the drive and forward intake and outtake should work
     }
 }
