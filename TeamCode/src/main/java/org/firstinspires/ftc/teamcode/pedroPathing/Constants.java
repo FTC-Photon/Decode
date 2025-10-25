@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
+import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
@@ -47,10 +48,10 @@ public class Constants {
             .mass(8.2)
             .forwardZeroPowerAcceleration(-53.74)
             .lateralZeroPowerAcceleration(-59.21)
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.005,0.025,0,0.08));
-
-            
-
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.008,0.000,0.005, 0.025))
+            .headingPIDFCoefficients(new PIDFCoefficients(0.8, 0, 0.05, 0.025))
+            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(0.4, 0, 0.000005, 0.025))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.025,0,0.00001,0.01,0.6));
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
 
     public static Follower createFollower(HardwareMap hardwareMap) {

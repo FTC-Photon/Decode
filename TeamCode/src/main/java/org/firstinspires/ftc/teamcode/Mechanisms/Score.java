@@ -11,13 +11,11 @@ public class Score {
         outtake = hwMap.get(DcMotor.class, "W2");
         outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-    public int scorePosition() {
-        return outtake.getCurrentPosition();
-    }
 
     public void outtakeScore(double outtakePower){
         outtake.setPower(outtakePower);
     }
+
 }
 
 
