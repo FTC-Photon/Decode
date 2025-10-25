@@ -2,13 +2,14 @@ package org.firstinspires.ftc.teamcode.Mechanisms;
 
 import static java.lang.Thread.sleep;
 
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 public class AutoScore {
     /** has intake and outtake info for autonomous scoring possibly also needed for auto scoring in TeleOp in the future
     **/
     private DcMotor outtake, intake;
+
 
     public void init(HardwareMap hwMap) {
         outtake = hwMap.get(DcMotor.class, "W2");
@@ -25,7 +26,7 @@ public class AutoScore {
         outtake.setPower(0);
         sleep(500);
         outtake.setPower(-outtakePower);
-        sleep(1000);
+        sleep(500);
         intake.setPower(intakePower);
         outtake.setPower(outtakePower);
         sleep(millis);
