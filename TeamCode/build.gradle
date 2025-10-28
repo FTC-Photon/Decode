@@ -18,6 +18,9 @@ apply from: '../build.dependencies.gradle'
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
 
+    compileSdk 34
+
+
     packagingOptions {
         jniLibs.useLegacyPackaging true
     }
@@ -25,4 +28,5 @@ android {
 
 dependencies {
     implementation project(':FtcRobotController')
+    implementation "com.bylazar:fullpanels:1.0.7"
 }

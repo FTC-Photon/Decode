@@ -225,7 +225,7 @@ class ForwardTuner extends OpMode {
  * @version 2.0, 6/26/2025
  */
 class LateralTuner extends OpMode {
-    public static double DISTANCE = 48;
+    public static double DISTANCE = 96;
 
     @Override
     public void init() {
@@ -632,7 +632,7 @@ class ForwardZeroPowerAccelerationTuner extends OpMode {
  */
 class LateralZeroPowerAccelerationTuner extends OpMode {
     private final ArrayList<Double> accelerations = new ArrayList<>();
-    public static double VELOCITY = 30;
+    public static double VELOCITY = 15;
     private double previousVelocity;
     private long previousTimeNano;
     private boolean stopping;
@@ -1003,7 +1003,7 @@ class Line extends OpMode {
  * @version 1.0, 3/13/2024
  */
 class CentripetalTuner extends OpMode {
-    public static double DISTANCE = 20;
+    public static double DISTANCE = 10;
     private boolean forward = true;
 
     private Path forwards;

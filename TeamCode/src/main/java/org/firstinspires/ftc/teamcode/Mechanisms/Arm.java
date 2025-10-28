@@ -4,12 +4,25 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Arm {
-    double armPower;
+    private DcMotor arm;
+    private double armPower;
+    private int armPositionOne, armPositionTwo;
+
+
 
     public void init(HardwareMap map){
-        DcMotor arm = map.get(DcMotor.class, "arm");
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm = map.get(DcMotor.class, "W3");
+        arm.setTargetPosition(44);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
     }
 
+    public void armPosition(int armPos) {
+        arm.setTargetPosition(armPos);
+        arm.setPower(0.3);
+    }
+    public int armPosition() {
+        return arm.getCurrentPosition();
+    }
 
 }

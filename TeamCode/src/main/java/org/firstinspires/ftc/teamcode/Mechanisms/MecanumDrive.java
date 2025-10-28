@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class MecanumDrive {
-    private DcMotor frontLeft, frontRight, backLeft, backRight, W1, W2;
+    private DcMotor frontLeft, frontRight, backLeft, backRight;
     private IMU imu;
 
     public void init(HardwareMap hwMap){
@@ -15,8 +15,6 @@ public class MecanumDrive {
         frontRight = hwMap.get(DcMotor.class, "fr");
         backLeft = hwMap.get(DcMotor.class, "bl");
         backRight = hwMap.get(DcMotor.class, "br");
-        W1 = hwMap.get(DcMotor.class, "W1");
-        W2 = hwMap.get(DcMotor.class, "W2");
 
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -37,7 +35,7 @@ public class MecanumDrive {
     }
 
     public void drive(double forward, double strafe, double rotate){
-        double frontLeftPower = forward + strafe + rotate;
+       double frontLeftPower = forward + strafe + rotate;
         double backLeftPower = forward - strafe + rotate;
         double frontRightPower = forward - strafe - rotate;
         double backRightPower = forward + strafe - rotate;
@@ -56,7 +54,7 @@ public class MecanumDrive {
         backRight.setPower(backRightPower);
     }
 
-    public void driveFieldRelative(double forward, double strafe, double rotate){//wheel1 and wheel 2
+    public void driveFieldRelative(double forward, double strafe, double rotate){
         double theta = Math.atan2(forward, strafe);
         double r = Math.hypot(strafe, forward);
 
@@ -65,7 +63,7 @@ public class MecanumDrive {
 
         double newForward = r * Math.sin(theta);
         double newStrafe = r * Math.cos(theta);
-        this.drive(newForward,newStrafe, rotate); // wheel 1 wheel 2
+        this.drive(newForward,newStrafe, rotate);
     }
 }
 
