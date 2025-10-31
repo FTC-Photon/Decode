@@ -25,8 +25,6 @@ public class PedroPathingAutonExample extends OpMode {
 
     private Path scorePreload;
     private PathChain grabPickup1, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
-    long millis;
-    double intakePower, outtakePower;
     AutoScore autoScore = new AutoScore(); //intake and outtake to score???
     intake intake = new intake(); //intake alone
     public void buildPaths() {
