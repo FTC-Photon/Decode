@@ -20,23 +20,26 @@ DcMotor frontLeft,frontRight,backLeft, backRight, intake, outtake;
          frontLeft = hardwareMap.get(DcMotor.class, "fl");
          frontRight = hardwareMap.get(DcMotor.class, "fr");
 
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
+
         outtake = hardwareMap.get(DcMotor.class, "W2");
         outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake = hardwareMap.get(DcMotor.class, "W1");
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         forward(1, 25); // first moves away from goal
-        turnRight(1,500);//has to turn slightly right to get angle
+        turnRight(1,200);//has to turn slightly right to get angle
         backward(1,100);//get closer
         AutonScore(1,1,1000); // made up numbers that whole class needs to be checked
-        turnRight(1,100);//get out of launch zone
+        turnRight(1,50);//get out of launch zone
         forward(1,500);
 
     }
 
     public void turnRight(double power, long mil){
         frontLeft.setPower(power);
-        frontRight.setPower(power);
+        frontRight.setPower(-power);
 
         sleep(mil);
 
@@ -101,9 +104,9 @@ DcMotor frontLeft,frontRight,backLeft, backRight, intake, outtake;
     }
     public void forward(double power, long mil) throws InterruptedException {
         frontLeft.setPower(power);
-        frontRight.setPower(-power);
+        frontRight.setPower(power);
         backLeft.setPower(power);
-        backRight.setPower(-power);
+        backRight.setPower(power);
 
         sleep(mil);
 
