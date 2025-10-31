@@ -25,39 +25,34 @@ public class FieldOrientatedOpMode extends OpMode {
     public void loop() {
         forward = gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
-        rotate = gamepad1.right_stick_x;
+        rotate = -gamepad1.right_stick_x;
 
 
         if (gamepad2.b) {
             intakePower = -1;
         } else if (gamepad2.a) {
             intakePower = 1;
-        } else{
-            intakePower = 0;
+        } else if (gamepad1.a){
+            intakePower = 1;
+        } else if(gamepad1.b){
+            intakePower = -1;
+        }else {
+            intakePower=0;
         }
+
+
         if (gamepad2.y) {
             outtakePower = -1;
         } else if (gamepad2.x) {
             outtakePower = 1;
-        } else {
-            outtakePower = 0;
-        }
-
-        if (gamepad1.b) {
-            intakePower = -1;
-        } else if (gamepad1.a) {
-            intakePower = 1;
-        } else{
-            intakePower = 0;
-        }
-
-        if (gamepad1.y) {
+        } else if (gamepad1.y) {
             outtakePower = -1;
-        } else if (gamepad1.x) {
-            outtakePower = 1;
-        } else {
+        } else if(gamepad1.x){
+            outtakePower=1;
+        } else{
             outtakePower = 0;
         }
+
 
 
         drive.drive(forward, strafe, rotate);

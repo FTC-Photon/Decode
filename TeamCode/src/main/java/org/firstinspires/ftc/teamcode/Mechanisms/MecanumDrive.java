@@ -26,8 +26,8 @@ public class MecanumDrive {
 
         imu = hwMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot RevOrientation = new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP);
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.UsbFacingDirection.DOWN);
 
         imu.initialize(new IMU.Parameters(RevOrientation));
     }
