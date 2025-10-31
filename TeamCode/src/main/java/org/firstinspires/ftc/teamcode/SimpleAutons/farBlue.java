@@ -21,6 +21,7 @@ public class farBlue extends LinearOpMode {
         turnRight(1,500);//have ramp face goal ; get angle right
         backward(1,500);//maybe to go towards
         autoScore.AutonScore(1,1, 1000); //score
+        turnRight(1,500);//face out to leave
         forward(1,500); // get out
     }
 

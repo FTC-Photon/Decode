@@ -18,10 +18,11 @@ public class closeBlue extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         forward(1, 500); // first moves away from goal
-        strafeLeft(1,500);// strafe left to position in front of goal
         turnRight(1,300);//has to turn slightly right to get angle
+        backward(1,300);//get closer
         autoScore.AutonScore(1,1,1000); // made up numbers that whole class needs to be checked
-        forward(1,500); // to get out of area?? need to check how to score auton points
+        turnRight(1,500);//get out of launch zone
+        forward(1,500);
     }
 
     public void turnRight(double power, long mil){

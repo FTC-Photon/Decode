@@ -21,6 +21,7 @@ public class farRed extends LinearOpMode {
        turnLeft(1,500);
        backward(1,500);
        autoScore.AutonScore(1,1,1000);
+       turnLeft(1,500);//face away to get out of launch zone
        forward(1,500);
     }
 
