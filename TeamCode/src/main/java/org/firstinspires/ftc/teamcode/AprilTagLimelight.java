@@ -17,7 +17,7 @@ public class AprilTagLimelight extends OpMode{
     @Override
     public void init() {
         limelight = hardwareMap.get(Limelight3A.class, "Limelight");
-        limelight.pipelineSwitch(8);
+        limelight.pipelineSwitch(1);
         //april tag pipeline changes in the limelight setup
         imu = hardwareMap.get(IMU.class, "IMU");
         RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
@@ -43,6 +43,8 @@ public class AprilTagLimelight extends OpMode{
             //target y target = apriltag
             telemetry.addData("Ta", llResult.getTa());
             //Target area   target= apriltag
+            telemetry.addData("BotPose", botPose.toString());
+            telemetry.addData("Yaw", botPose.getOrientation().getYaw());
         }
     }
 

@@ -1,33 +1,39 @@
 package org.firstinspires.ftc.teamcode.SimpleAutons;
 
-import static java.lang.Thread.sleep;
+//import static java.lang.Thread.sleep;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Mechanisms.AutoScore;
+
 
 @Autonomous
+
 public class closeBlue extends LinearOpMode {
 DcMotor frontLeft,frontRight,backLeft, backRight, intake, outtake;
 
+
+
+
+
     @Override
     public void runOpMode() throws InterruptedException {
-         backLeft = hardwareMap.get(DcMotor.class,"bl");
-         backRight = hardwareMap.get(DcMotor.class, "br");
-         frontLeft = hardwareMap.get(DcMotor.class, "fl");
-         frontRight = hardwareMap.get(DcMotor.class, "fr");
+
+        backLeft = hardwareMap.get(DcMotor.class,"bl");
+        backRight = hardwareMap.get(DcMotor.class, "br");
+        frontLeft = hardwareMap.get(DcMotor.class, "fl");
+        frontRight = hardwareMap.get(DcMotor.class, "fr");
 
         outtake = hardwareMap.get(DcMotor.class, "W2");
         outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake = hardwareMap.get(DcMotor.class, "W1");
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        waitForStart();
         forward(1, 25); // first moves away from goal
         turnRight(1,500);//has to turn slightly right to get angle
-        backward(1,100);//get closer
+        backward(1,200);//get closer
         AutonScore(1,1,1000); // made up numbers that whole class needs to be checked
         turnRight(1,100);//get out of launch zone
         forward(1,500);
@@ -82,7 +88,7 @@ DcMotor frontLeft,frontRight,backLeft, backRight, intake, outtake;
         backRight.setPower(0);
     }
 
-    public void AutonScore(double outtakePower, double intakePower, long millis) throws InterruptedException {
+    public void AutonScore(double outtakePower, double intakePower, long millis) {
         intake.setPower(0);
         outtake.setPower(outtakePower);
         sleep(1000);
