@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
@@ -21,8 +22,8 @@ public class pedroPathingCB extends OpMode {
     //test this seems ok
     private final Pose pickup1Pose = new Pose(38, 84, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup2Pose = new Pose(38, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3Pose = new Pose(38, 36, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-
+    private final Pose pickup3Pose = new Pose(38, 36, Math.toRadians(180));// Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose cPose = new Pose(55,82, Math.toRadians(0));
     private Path scorePreload;
     private PathChain grabPickup1, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
     long millis;
@@ -51,7 +52,7 @@ public class pedroPathingCB extends OpMode {
 
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup2 = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup2Pose))
+                .addPath(new BezierCurve(scorePose, cPose, pickup2Pose)) // change back to bezier line if not working
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading())
                 .build();
 
@@ -63,7 +64,7 @@ public class pedroPathingCB extends OpMode {
 
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup3 = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup3Pose))
+                .addPath(new BezierCurve(scorePose, cPose, pickup3Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading())
                 .build();
 
