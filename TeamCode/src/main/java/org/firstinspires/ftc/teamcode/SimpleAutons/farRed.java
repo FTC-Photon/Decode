@@ -8,69 +8,68 @@ import org.firstinspires.ftc.teamcode.Mechanisms.AutoScore;
 
 @Autonomous
 public class farRed extends LinearOpMode {
-    DcMotor backLeft = hardwareMap.get(DcMotor.class,"bl");
-    DcMotor backRight = hardwareMap.get(DcMotor.class, "br");
-    DcMotor frontLeft = hardwareMap.get(DcMotor.class, "fl");
-    DcMotor frontRight = hardwareMap.get(DcMotor.class, "fr");
-    AutoScore autoScore = new AutoScore();
+    DcMotor backLeft, backRight,frontLeft,frontRight,intake,outtake,midtake;
+
 
 
     @Override
-    public void runOpMode() throws InterruptedException {
-       forward(1,1000);
-       turnLeft(1,500);
-       backward(1,500);
-       autoScore.AutonScore(1,1,1000);
-       turnLeft(1,500);//face away to get out of launch zone
-       forward(1,500);
+    public void runOpMode()  {
+        backLeft = hardwareMap.get(DcMotor.class,"bl");
+        backRight = hardwareMap.get(DcMotor.class, "br");
+        frontLeft = hardwareMap.get(DcMotor.class, "fl");
+        frontRight = hardwareMap.get(DcMotor.class, "fr");
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
+
+        outtake = hardwareMap.get(DcMotor.class, "W2");
+        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intake = hardwareMap.get(DcMotor.class, "W1");
+        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        midtake = hardwareMap.get(DcMotor.class, "W3");
+        midtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        waitForStart();
+        forward(1,750); //long forward
+        turnLeft(1,200);//have ramp face goal ; get angle right
+        backward(1,500);//maybe to go towards
+        AutonScore(1,1,1, 1000); //score
+        turnLeft(1,500);//face out to leave
+        forward(1,500); // get out
     }
 
     public void turnRight(double power, long mil){
         frontLeft.setPower(power);
-        frontRight.setPower(-power);
+        frontRight.setPower(power);
 
         sleep(mil);
 
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
     }
     public void strafeRight(double power, long mil){
         frontLeft.setPower(power);
-        frontRight.setPower(-power);
+        frontRight.setPower(power);
         backLeft.setPower(power);
-        backRight.setPower(-power);
-
-
-        sleep(mil);
-
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
-    }
-
-    public void turnLeft(double power, long mil){
-        frontLeft.setPower(-power);
-        frontRight.setPower(power);
-
-        sleep(mil);
-
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-    }
-    public void strafeLeft(double power, long mil){
-        frontLeft.setPower(-power);
-        frontRight.setPower(power);
-        backLeft.setPower(-power);
         backRight.setPower(power);
 
 
         sleep(mil);
 
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
+    }
+
+    public void turnLeft(double power, long mil){
+        frontLeft.setPower(power);
+        frontRight.setPower(power);
+
+        sleep(mil);
+
+    }
+    public void strafeLeft(double power, long mil){
+        frontLeft.setPower(power);
+        frontRight.setPower(power);
+        backLeft.setPower(power);
+        backRight.setPower(power);
+
+
+        sleep(mil);
     }
 
     public void forward(double power, long mil){
@@ -80,24 +79,21 @@ public class farRed extends LinearOpMode {
         backRight.setPower(power);
 
         sleep(mil);
-
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
     }
 
     public void backward(double power, long mil) {
-        frontLeft.setPower(-power);
-        frontRight.setPower(-power);
-        backLeft.setPower(-power);
-        backRight.setPower(-power);
+        frontLeft.setPower(power);
+        frontRight.setPower(power);
+        backLeft.setPower(power);
+        backRight.setPower(power);
 
         sleep(mil);
+    }
 
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
+    public void AutonScore(double outtakePower, double intakePower, double midtakePower, long millis) {
+        intake.setPower(intakePower);
+        midtake.setPower(midtakePower);
+        outtake.setPower(outtakePower);
+        sleep(millis);
     }
 }

@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Mechanisms.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Mechanisms.Score;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 
-@TeleOp
+
 public class ColorSensorTest extends OpMode {
     ColorSensor colorSensor = new ColorSensor();
     AutoScore score1 = new AutoScore();
@@ -33,7 +33,7 @@ public class ColorSensorTest extends OpMode {
     if (gamepad1.a) {
         telemetry.addData("button","s");
         try {
-            score1.AutonScore(1,1,500);
+            score1.AutonScore(1,1,1,500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
