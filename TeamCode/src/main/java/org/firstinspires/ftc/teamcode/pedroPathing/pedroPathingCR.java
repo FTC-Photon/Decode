@@ -100,6 +100,7 @@ public class pedroPathingCR extends OpMode {
                     follower.followPath(scorePickup1,true);
                     setPathState(3);
                 }
+                break;
             case 3:
                 /* Set the state to a Case we won't use or define, so it just stops running an new paths */
                 if(!follower.isBusy()) {
