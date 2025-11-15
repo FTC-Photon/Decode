@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
@@ -14,17 +13,17 @@ import org.firstinspires.ftc.teamcode.Mechanisms.AutoScore;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 
 @Autonomous
-public class pedroPathingXavier extends OpMode {
+public class pedroPathingXavierRed extends OpMode {
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;
-    private final Pose startPose = new Pose(34, 135, Math.toRadians(0)); // Start Pose currently left corner subject to change
-    private final Pose scorePose = new Pose(30, 125, Math.toRadians(-35)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose startPose = new Pose(110, 135, Math.toRadians(-180)); // Start Pose currently left corner subject to change
+    private final Pose scorePose = new Pose(114, 125, Math.toRadians(-145)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //test this seems ok
-    private final Pose pickup1Pose = new Pose(24, 84, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose MiddlePose = new Pose(55,84,Math.toRadians(180));
-    private final Pose pickup2Pose = new Pose(24, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3Pose = new Pose(24, 36, Math.toRadians(180));// Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1Pose = new Pose(120, 84, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose MiddlePose = new Pose(89,84,Math.toRadians(0));
+    private final Pose pickup2Pose = new Pose(120, 60, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3Pose = new Pose(120, 36, Math.toRadians(0));// Lowest (Third Set) of Artifacts from the Spike Mark.
     private Path scorePreload;
     private PathChain goMiddle1, grabPickup1, goMiddle2, scorePickup1;
     long millis;
@@ -90,13 +89,13 @@ public class pedroPathingXavier extends OpMode {
                 break;
 
                 case 2:
+
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if(!follower.isBusy()) {
                     /* Grab Sample */
-
+                    intake.intakeHold(1);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(goMiddle1, true);
-                    intake.intakeHold(1);
                     setPathState(3);
                }
                 break;
@@ -104,9 +103,6 @@ public class pedroPathingXavier extends OpMode {
 
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
-                    /* Score Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(goMiddle2,true);
                     setPathState(4);
                 }
@@ -120,7 +116,6 @@ public class pedroPathingXavier extends OpMode {
                     follower.followPath(scorePickup1,true);
                     setPathState(5);
                 }
-
                break;
             case 5:
 
