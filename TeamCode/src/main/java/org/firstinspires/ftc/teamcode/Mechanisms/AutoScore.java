@@ -34,7 +34,7 @@ public class AutoScore {
         midtake.setPower(0);
         sleep(1000);
         intake.setPower(intakePower);
-        outtake.setPower(outtakePower);
+        midtake.setPower(midtakePower);
         sleep(millis);
         outtake.setPower(0);
         intake.setPower(0);
