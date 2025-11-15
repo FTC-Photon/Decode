@@ -92,6 +92,15 @@ public class pedroPathingCB extends OpMode {
                 }
                 break;
             case 2:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
+                if(!follower.isBusy()) {
+                    /* Grab Sample */
+                    intake.autoIntake(1,500);
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
+                    follower.followPath(scorePickup1,true);
+                    setPathState(3);
+                }
+            case 3:
             /* Set the state to a Case we won't use or define, so it just stops running an new paths */
             if(!follower.isBusy()) {
                 /* Set the state to a Case we won't use or define, so it just stops running an new paths */
