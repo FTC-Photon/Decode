@@ -28,17 +28,17 @@ public class MecanumDrive {
 
         imu = hwMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot RevOrientation = new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP);
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.UsbFacingDirection.DOWN);
 
         imu.initialize(new IMU.Parameters(RevOrientation));
     }
 
     public void drive(double forward, double strafe, double rotate){
-       double frontLeftPower = forward + strafe + rotate;
-        double backLeftPower = forward - strafe + rotate;
-        double frontRightPower = forward - strafe - rotate;
-        double backRightPower = forward + strafe - rotate;
+       double frontLeftPower = forward - strafe + rotate;
+        double backLeftPower = forward + strafe + rotate;
+        double frontRightPower = forward + strafe - rotate;
+        double backRightPower = forward - strafe - rotate;
 
         double maxPower = 1.0;
         double maxSpeed = 1.0;

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class AutoScore {
     /** has intake and outtake info for autonomous scoring possibly also needed for auto scoring in TeleOp in the future
     **/
-    private DcMotor outtake, intake;
+    private DcMotor outtake, intake, midtake;
 
 
     public void init(HardwareMap hwMap) {
@@ -16,23 +16,28 @@ public class AutoScore {
         outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake = hwMap.get(DcMotor.class, "W1");
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        midtake =hwMap.get(DcMotor.class,"W3");
+        midtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        midtake.setDirection(DcMotor.Direction.REVERSE);
+
     }
 
-    public void AutonScore(double outtakePower, double intakePower, long millis) throws InterruptedException {
-        intake.setPower(0);
+    public void AutonScore(double outtakePower, double intakePower, double midtakePower, long millis) throws InterruptedException {
         outtake.setPower(outtakePower);
-        sleep(millis*3);
-        intake.setPower(intakePower);
-        sleep(millis);
-        intake.setPower(0);
+        sleep(2500);
 
-        sleep(500);
-        intake.setPower(-outtakePower*0.35);
-        sleep(500);
         intake.setPower(intakePower);
 
-        sleep(millis);
+        midtake.setPower(midtakePower);
+        sleep(500);
         intake.setPower(0);
+        midtake.setPower(0);
+        sleep(1000);
+        intake.setPower(intakePower);
+        midtake.setPower(midtakePower);
+        sleep(millis);
         outtake.setPower(0);
+        intake.setPower(0);
+        midtake.setPower(0);
     }
 }
