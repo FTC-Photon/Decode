@@ -19,7 +19,7 @@ public class pedroPathingXavier extends OpMode {
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;
     private final Pose startPose = new Pose(34, 135, Math.toRadians(0)); // Start Pose currently left corner subject to change
-    private final Pose scorePose = new Pose(30, 125, Math.toRadians(-35)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(30, 120, Math.toRadians(-35)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //test this seems ok
     private final Pose pickup1Pose = new Pose(24, 84, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose MiddlePose = new Pose(55,84,Math.toRadians(180));
@@ -82,7 +82,7 @@ public class pedroPathingXavier extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Preload */
-                    autoScore.AutonScore(0.92,1,0.5,1000);
+                    autoScore.AutonScore(0.85,1,1,1000);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup1,true);
                     setPathState(2);
@@ -125,7 +125,7 @@ public class pedroPathingXavier extends OpMode {
             case 5:
 
                 if(!follower.isBusy()){
-                    autoScore.AutonScore(0.92,1,0.5,1000);
+                    autoScore.AutonScore(0.85,1,1,1000);
                     setPathState(-1);
                 }
                 break;

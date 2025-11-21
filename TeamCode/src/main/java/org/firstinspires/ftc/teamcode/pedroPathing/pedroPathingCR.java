@@ -19,14 +19,11 @@ public class pedroPathingCR extends OpMode {
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;
     private final Pose startPose = new Pose(110, 135, Math.toRadians(180)); // Start Pose currently left corner subject to change
-    private final Pose scorePose = new Pose(115, 125, Math.toRadians(215)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(120, 125, Math.toRadians(215)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //test this seems ok
-    private final Pose pickup1Pose = new Pose(130, 84, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2Pose = new Pose(130, 60, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3Pose = new Pose(130, 36, Math.toRadians(0));// Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose intakePose1 = new Pose(111,84, Math.toRadians(0));
-    private final Pose intakePose2 = new Pose(111,60,Math.toRadians(0));
-    private final Pose intakePose3 = new Pose(111,36, Math.toRadians(0));
+    private final Pose pickup1Pose = new Pose(110, 84, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2Pose = new Pose(110, 60, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3Pose = new Pose(110, 36, Math.toRadians(0));// Lowest (Third Set) of Artifacts from the Spike Mark.
     private Path scorePreload;
     private PathChain grabPickup1, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
     long millis;
@@ -43,7 +40,7 @@ public class pedroPathingCR extends OpMode {
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup1 = follower.pathBuilder()
-                .addPath(new BezierCurve(scorePose,new Pose(30,75,Math.toRadians(0)), pickup1Pose))
+                .addPath(new BezierCurve(scorePose,new Pose(), pickup1Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
                 .build();
 
@@ -55,7 +52,7 @@ public class pedroPathingCR extends OpMode {
 
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup2 = follower.pathBuilder()
-                .addPath(new BezierCurve(scorePose, new Pose(130,60,Math.toRadians(0)), pickup2Pose)) // change back to bezier line if not working
+                .addPath(new BezierCurve(scorePose, new Pose(), pickup2Pose)) // change back to bezier line if not working
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading())
                 .build();
 
@@ -67,7 +64,7 @@ public class pedroPathingCR extends OpMode {
 
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup3 = follower.pathBuilder()
-                .addPath(new BezierCurve(scorePose, new Pose(15,30,Math.toRadians(0)), pickup3Pose))
+                .addPath(new BezierCurve(scorePose, new Pose(), pickup3Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading())
                 .build();
 
@@ -105,10 +102,6 @@ public class pedroPathingCR extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if(!follower.isBusy()) {
                     /* Grab Sample */
-                    while(follower.getPose().roughlyEquals(intakePose1,1 )) {
-                        /* Grab Sample */
-                        continue;
-                    }
                     intake.autoIntake(1,500);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(scorePickup1,true);
@@ -128,10 +121,6 @@ public class pedroPathingCR extends OpMode {
             case 4:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if(!follower.isBusy()) {
-                    while(follower.getPose().roughlyEquals(intakePose2,1 )) {
-                        /* Grab Sample */
-                        continue;
-                    }
                     /* Grab Sample */
                     intake.autoIntake(1,500);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
@@ -152,10 +141,6 @@ public class pedroPathingCR extends OpMode {
             case 6:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
                 if(!follower.isBusy()) {
-                    while(follower.getPose().roughlyEquals(intakePose3,1 )) {
-                        /* Grab Sample */
-                        continue;
-                    }
                     /* Grab Sample */
                     intake.autoIntake(1,500);
 

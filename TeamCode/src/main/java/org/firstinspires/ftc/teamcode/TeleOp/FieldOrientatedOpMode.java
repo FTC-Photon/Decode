@@ -56,9 +56,9 @@ public class FieldOrientatedOpMode extends OpMode {
         } else{
             outtakePower = 0;
         }
-        if (gamepad2.b || gamepad1.b) {
+        if (gamepad2.left_bumper) {
             midPower = 1;
-        } else if (gamepad2.a || gamepad1.a) {
+        } else if (gamepad2.right_bumper) {
             midPower = -1;
         } else {
             midPower = 0;
