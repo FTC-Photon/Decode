@@ -16,8 +16,8 @@ public class PedroPathingAutonExample extends OpMode {
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;
-    private final Pose startPose = new Pose(48, 144, Math.toRadians(180)); // Start Pose currently left corner subject to change
-    private final Pose scorePose = new Pose(20, 144, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose startPose = new Pose(25, 143, Math.toRadians(180)); // Start Pose currently left corner subject to change
+    private final Pose scorePose = new Pose(20, 143, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //test this seems ok
     private final Pose pickup1Pose = new Pose(37, 121, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup2Pose = new Pose(43, 130, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
@@ -74,7 +74,7 @@ public class PedroPathingAutonExample extends OpMode {
                 .build();
     }
 
-    public void autonomousPathUpdate() {
+    public void autonomousPathUpdate() throws InterruptedException {
         switch (pathState) {
             case 0:
                 follower.followPath(scorePreload);
@@ -115,7 +115,7 @@ public class PedroPathingAutonExample extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Sample */
-
+                    autoScore.AutonScore(1,1,500);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup2,true);
                     setPathState(4);
@@ -125,7 +125,7 @@ public class PedroPathingAutonExample extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if(!follower.isBusy()) {
                     /* Grab Sample */
-
+                    intake.autoIntake(1,500);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(scorePickup2,true);
                     setPathState(5);
@@ -173,7 +173,11 @@ public class PedroPathingAutonExample extends OpMode {
 
         // These loop the movements of the robot, these must be called continuously in order to work
         follower.update();
-        autonomousPathUpdate();
+        try {
+            autonomousPathUpdate();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
 
         // Feedback to Driver Hub for debugging
