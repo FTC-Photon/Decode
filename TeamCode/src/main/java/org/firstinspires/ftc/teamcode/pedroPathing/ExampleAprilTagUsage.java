@@ -14,7 +14,7 @@ public class ExampleAprilTagUsage extends OpMode {
     private Limelight3A camera; //any camera here
     private Follower follower;
     private boolean following = false;
-    private final Pose TARGET_LOCATION = new Pose(); //Put the target location here
+    private final Pose TARGET_LOCATION = new Pose(30, 125, Math.toRadians(-35)); //Put the target location here
 
     @Override
     public void init() {

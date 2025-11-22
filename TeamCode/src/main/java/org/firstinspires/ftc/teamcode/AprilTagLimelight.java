@@ -6,12 +6,14 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class AprilTagLimelight extends OpMode{
     private Limelight3A limelight;
     private IMU imu;
+    private double distance;
 
 
     @Override
@@ -32,11 +34,12 @@ public class AprilTagLimelight extends OpMode{
     @Override
     public void loop() {
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-        limelight.updateRobotOrientation(orientation.getYaw());
+        limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
         LLResult llResult = limelight.getLatestResult();
 
         if(llResult != null && llResult.isValid()){
             Pose3D botPose = llResult.getBotpose_MT2();
+            telemetry.addData("calculated distance", distance);
             telemetry.addData("Tx", llResult.getTx());
             //target x   target = apriltag
             telemetry.addData("Ty", llResult.getTy());
@@ -46,6 +49,10 @@ public class AprilTagLimelight extends OpMode{
             telemetry.addData("BotPose", botPose.toString());
             telemetry.addData("Yaw", botPose.getOrientation().getYaw());
         }
+    }
+    public double getDistanceFromTag(double ta){
+        double scale = 0; // = y value in eqaution of curve
+        return (scale/ta); // equal to distance
     }
 
 }
