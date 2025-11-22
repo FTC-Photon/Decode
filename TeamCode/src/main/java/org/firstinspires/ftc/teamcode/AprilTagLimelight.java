@@ -54,8 +54,9 @@ public class AprilTagLimelight extends OpMode{
     }
     public double getDistanceFromTag(double ta){
         //distance is the hypotenuse
-        double scale = 331.3393; // = y value in eqaution of curve
-        return (scale/ta); // equal to distance
+        double scale = 128.9873; // = y value in eqaution of curve
+        distance = (scale/ta) ;
+        return distance; // equal to distance
     }
 
 }
