@@ -40,6 +40,7 @@ public class AprilTagLimelight extends OpMode{
 
         if(llResult != null && llResult.isValid()){
             Pose3D botPose = llResult.getBotpose_MT2();
+            distance= getDistanceFromTag(llResult.getTa());
             telemetry.addData("calculated distance", distance);
             telemetry.addData("Tx", llResult.getTx());
             //target x   target = apriltag
@@ -48,11 +49,12 @@ public class AprilTagLimelight extends OpMode{
             telemetry.addData("Ta", llResult.getTa());
             //Target area   target= apriltag
             telemetry.addData("BotPose", botPose.toString());
-            telemetry.addData("Yaw", botPose.getOrientation().getYaw());
+           // telemetry.addData("Yaw", botPose.getOrientation().getYaw());
         }
     }
     public double getDistanceFromTag(double ta){
-        double scale = 0; // = y value in eqaution of curve
+        //distance is the hypotenuse
+        double scale = 331.3393; // = y value in eqaution of curve
         return (scale/ta); // equal to distance
     }
 
