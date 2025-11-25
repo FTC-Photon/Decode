@@ -54,6 +54,7 @@ public class ExampleAprilTagUsage extends OpMode {
         //Fill this out to get the robot Pose from the camera's output (apply any filters if you need to using follower.getPose()                       for fusion)
         //Pedro Pathing has built-in KalmanFilter and LowPassFilter classes you can use for this
 
+
         //Use this to convert standard FTC coordinates to standard Pedro Pathing coordinates
         return new Pose(0, 0, 0, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
     }

@@ -49,14 +49,32 @@ public class AprilTagLimelight extends OpMode{
             telemetry.addData("Ta", llResult.getTa());
             //Target area   target= apriltag
             telemetry.addData("BotPose", botPose.toString());
-           // telemetry.addData("Yaw", botPose.getOrientation().getYaw());
+            telemetry.addData("Yaw", botPose.getOrientation().getYaw());
+        } else {
+            telemetry.addData("Limelight", "No Targets");
         }
+
     }
     public double getDistanceFromTag(double ta){
         //distance is the hypotenuse
         double scale = 128.9873; // = y value in eqaution of curve
         distance = (scale/ta) ;
         return distance; // equal to distance
+    }
+
+    //MT1 haven't
+    public void getPosition(){
+        YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+        limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
+        LLResult result = limelight.getLatestResult();
+        if (result != null && result.isValid()) {
+            Pose3D botpose = result.getBotpose();
+            if (botpose != null) {
+                double x = botpose.getPosition().x;
+                double y = botpose.getPosition().y;
+                telemetry.addData("MT1 Location", "(" + x + ", " + y + ")");
+            }
+        }
     }
 
 }
