@@ -52,11 +52,12 @@ public class AprilTagLimelight extends OpMode{
            // telemetry.addData("Yaw", botPose.getOrientation().getYaw());
         }
     }
+
     public double getDistanceFromTag(double ta){
         //distance is the hypotenuse
-        double scale = 128.9873; // = y value in eqaution of curve
+        double scale = 128.9873; // = c value in eqaution of curve c/x
         distance = (scale/ta) ;
-        return distance; // equal to distance
+        return distance;
     }
 
 }
