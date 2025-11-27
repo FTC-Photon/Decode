@@ -82,7 +82,7 @@ public class pedroPathingXavier extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Preload */
-                    autoScore.AutonScore(0.85,1,1,1000);
+                    autoScore.AutonScore(0.5,1,1,250);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup1,true);
                     setPathState(2);
@@ -125,7 +125,7 @@ public class pedroPathingXavier extends OpMode {
             case 5:
 
                 if(!follower.isBusy()){
-                    autoScore.AutonScore(0.85,1,1,1000);
+                    autoScore.AutonScore(0.5,1,1,250);
                     setPathState(-1);
                 }
                 break;
