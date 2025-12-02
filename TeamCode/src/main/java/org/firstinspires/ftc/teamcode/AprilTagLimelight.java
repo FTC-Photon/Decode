@@ -4,14 +4,17 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-
+@TeleOp
 public class AprilTagLimelight extends OpMode{
     private Limelight3A limelight;
     private IMU imu;
+    private double distance;
 
 
     @Override
@@ -19,7 +22,7 @@ public class AprilTagLimelight extends OpMode{
         limelight = hardwareMap.get(Limelight3A.class, "Limelight");
         limelight.pipelineSwitch(1);
         //april tag pipeline changes in the limelight setup
-        imu = hardwareMap.get(IMU.class, "IMU");
+        imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
         imu.initialize(new IMU.Parameters(revHubOrientationOnRobot));
     }
@@ -32,11 +35,13 @@ public class AprilTagLimelight extends OpMode{
     @Override
     public void loop() {
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-        limelight.updateRobotOrientation(orientation.getYaw());
+        limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
         LLResult llResult = limelight.getLatestResult();
 
         if(llResult != null && llResult.isValid()){
             Pose3D botPose = llResult.getBotpose_MT2();
+            distance= getDistanceFromTag(llResult.getTa());
+            telemetry.addData("calculated distance", distance);
             telemetry.addData("Tx", llResult.getTx());
             //target x   target = apriltag
             telemetry.addData("Ty", llResult.getTy());
@@ -45,6 +50,31 @@ public class AprilTagLimelight extends OpMode{
             //Target area   target= apriltag
             telemetry.addData("BotPose", botPose.toString());
             telemetry.addData("Yaw", botPose.getOrientation().getYaw());
+        } else {
+            telemetry.addData("Limelight", "No Targets");
+        }
+
+    }
+
+    public double getDistanceFromTag(double ta){
+        //distance is the hypotenuse
+        double scale = 128.9873; // = c value in eqaution of curve c/x
+        distance = (scale/ta) ;
+        return distance;
+    }
+
+    //MT1 haven't
+    public void getPosition(){
+        YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+        limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
+        LLResult result = limelight.getLatestResult();
+        if (result != null && result.isValid()) {
+            Pose3D botpose = result.getBotpose();
+            if (botpose != null) {
+                double x = botpose.getPosition().x;
+                double y = botpose.getPosition().y;
+                telemetry.addData("MT1 Location", "(" + x + ", " + y + ")");
+            }
         }
     }
 
