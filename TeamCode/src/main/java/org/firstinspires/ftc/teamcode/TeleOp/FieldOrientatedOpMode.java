@@ -25,6 +25,7 @@ public class FieldOrientatedOpMode extends OpMode {
         intakeHold.init(hardwareMap);//intake
         outtakeScore.init(hardwareMap);//outtake
         midtake.init(hardwareMap);
+        slideMode = true;
     }
 
     @Override
@@ -39,7 +40,7 @@ public class FieldOrientatedOpMode extends OpMode {
 
         rotate = -gamepad1.right_stick_x;
         //toggle for the driver mode
-        if (gamepad1.start && !driverPressed) {
+        if (gamepad1.dpad_down && !driverPressed) {
             if (driverMode) {
                 driverMode = false;
             } else {
@@ -47,11 +48,11 @@ public class FieldOrientatedOpMode extends OpMode {
             }
             driverPressed = true;
         }
-        if (!gamepad1.start) {
+        if (!gamepad1.dpad_down){
             driverPressed = false;
         }
         //toggle for the slide mode
-        if (gamepad2.start && !slidePressed) {
+        if (gamepad2.dpad_down && !slidePressed) {
             if (slideMode) {
                 slideMode = false;
             } else {
@@ -59,7 +60,7 @@ public class FieldOrientatedOpMode extends OpMode {
             }
             slidePressed = true;
         }
-        if (!gamepad2.start) {
+        if (!gamepad2.dpad_down) {
             slidePressed = false;
         }
         if (slideMode) {

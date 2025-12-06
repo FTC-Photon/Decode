@@ -28,7 +28,7 @@ public class ExampleAprilTagUsage extends OpMode {
     public void init() {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(getRobotPoseFromCamera()); //set your starting pose attempt to use camera
+        follower.setStartingPose(getRobotPoseFromCamera()); //set your starting pose attempt to use camera 
         limelight.pipelineSwitch(1);
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
@@ -68,14 +68,16 @@ public class ExampleAprilTagUsage extends OpMode {
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
         LLResult result = limelight.getLatestResult();
-        double x = 0, y=0;
-        if (result != null && result.isValid()){
+        if (result != null && result.isValid()) {
             Pose3D botpose = result.getBotpose();
-            x = botpose.getPosition().x;
-            y= botpose.getPosition().y;
+            if (botpose != null) {
+                double x = botpose.getPosition().x;
+                double y = botpose.getPosition().y;
+                telemetry.addData("MT1 Location", "(" + x + ", " + y + ")");
+            }
         }
+
         //Use this to convert standard FTC coordinates to standard Pedro Pathing coordinates
-        final Pose pose = new Pose(x, y, 0, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
-        return pose;
+        return new Pose(0, 0, 0, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
     }
 }

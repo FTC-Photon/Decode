@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Mechanisms.AutoScore;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 
 @Autonomous
-public class pedroPathingCR extends OpMode {
+public class PedroPathingAutonExample extends OpMode {
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;
@@ -74,7 +74,7 @@ public class pedroPathingCR extends OpMode {
                 .build();
     }
 
-    public void autonomousPathUpdate() throws InterruptedException {
+    public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
                 follower.followPath(scorePreload);
@@ -91,7 +91,7 @@ public class pedroPathingCR extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Preload */
-                    autoScore.AutonScore(1,1,1,500);
+                    autoScore.AutonScore(1,1,500);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup1,true);
                     setPathState(2);
@@ -135,7 +135,7 @@ public class pedroPathingCR extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Sample */
-                    autoScore.AutonScore(1,1,1,500);
+                    autoScore.AutonScore(1,1,500);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup3,true);
                     setPathState(6);
@@ -173,11 +173,7 @@ public class pedroPathingCR extends OpMode {
 
         // These loop the movements of the robot, these must be called continuously in order to work
         follower.update();
-        try {
-            autonomousPathUpdate();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        autonomousPathUpdate();
 
 
         // Feedback to Driver Hub for debugging

@@ -24,17 +24,20 @@ public class AutoScore {
 
     public void AutonScore(double outtakePower, double intakePower, double midtakePower, long millis) throws InterruptedException {
         outtake.setPower(outtakePower);
-        sleep(2500);
-
-        intake.setPower(intakePower);
-
-        midtake.setPower(midtakePower);
-        sleep(500);
-        intake.setPower(0);
-        midtake.setPower(0);
         sleep(1000);
-        intake.setPower(intakePower);
+
+
+
         midtake.setPower(midtakePower);
+        intake.setPower(intakePower);
+        sleep(500);
+
+        midtake.setPower(0);
+        intake.setPower(0);
+        sleep(500);
+
+        midtake.setPower(midtakePower);
+        intake.setPower(intakePower);
         sleep(millis);
         outtake.setPower(0);
         intake.setPower(0);

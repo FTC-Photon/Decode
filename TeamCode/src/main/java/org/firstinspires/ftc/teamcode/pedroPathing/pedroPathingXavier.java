@@ -19,9 +19,9 @@ public class pedroPathingXavier extends OpMode {
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;
     private final Pose startPose = new Pose(34, 135, Math.toRadians(0)); // Start Pose currently left corner subject to change
-    private final Pose scorePose = new Pose(30, 120, Math.toRadians(-35)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(50, 100, Math.toRadians(-45)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //test this seems ok
-    private final Pose pickup1Pose = new Pose(24, 84, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1Pose = new Pose(22, 84, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose MiddlePose = new Pose(55,84,Math.toRadians(180));
     private final Pose pickup2Pose = new Pose(24, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 36, Math.toRadians(180));// Lowest (Third Set) of Artifacts from the Spike Mark.
@@ -82,7 +82,7 @@ public class pedroPathingXavier extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Preload */
-                    autoScore.AutonScore(0.5,1,1,250);
+                    autoScore.AutonScore(0.95,1,1,250);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup1,true);
                     setPathState(2);
@@ -97,13 +97,14 @@ public class pedroPathingXavier extends OpMode {
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(goMiddle1, true);
                     intake.intakeHold(1);
+
                     setPathState(3);
                }
                 break;
             case 3:
 
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(!follower.isBusy()) {
+                if(pathTimer.getElapsedTimeSeconds() > 3) {
                     /* Score Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
@@ -124,8 +125,8 @@ public class pedroPathingXavier extends OpMode {
                break;
             case 5:
 
-                if(!follower.isBusy()){
-                    autoScore.AutonScore(0.5,1,1,250);
+                if(pathTimer.getElapsedTimeSeconds() > 2){
+                    autoScore.AutonScore(0.95,1,1,250);
                     setPathState(-1);
                 }
                 break;
