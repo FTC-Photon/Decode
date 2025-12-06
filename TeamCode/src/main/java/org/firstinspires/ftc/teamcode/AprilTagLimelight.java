@@ -1,24 +1,28 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
+import com.pedropathing.ftc.FTCCoordinates;
+import com.pedropathing.geometry.PedroCoordinates;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-@TeleOp
-public class AprilTagLimelight extends OpMode{
+public class AprilTagLimelight{
     private Limelight3A limelight;
     private IMU imu;
-    private double distance;
 
 
-    @Override
-    public void init() {
+
+    public void init(HardwareMap hardwareMap) {
         limelight = hardwareMap.get(Limelight3A.class, "Limelight");
         limelight.pipelineSwitch(1);
         //april tag pipeline changes in the limelight setup
@@ -27,55 +31,25 @@ public class AprilTagLimelight extends OpMode{
         imu.initialize(new IMU.Parameters(revHubOrientationOnRobot));
     }
 
-    @Override
-    public void start(){
-        limelight.start();
-    }
 
-    @Override
-    public void loop() {
-        YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-        limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
-        LLResult llResult = limelight.getLatestResult();
 
-        if(llResult != null && llResult.isValid()){
-            Pose3D botPose = llResult.getBotpose_MT2();
-            distance= getDistanceFromTag(llResult.getTa());
-            telemetry.addData("calculated distance", distance);
-            telemetry.addData("Tx", llResult.getTx());
-            //target x   target = apriltag
-            telemetry.addData("Ty", llResult.getTy());
-            //target y target = apriltag
-            telemetry.addData("Ta", llResult.getTa());
-            //Target area   target= apriltag
-            telemetry.addData("BotPose", botPose.toString());
-            telemetry.addData("Yaw", botPose.getOrientation().getYaw());
-        } else {
-            telemetry.addData("Limelight", "No Targets");
-        }
-
-    }
-
-    public double getDistanceFromTag(double ta){
+    private double getDistanceFromTag(double ta) {
         //distance is the hypotenuse
-        double scale = 128.9873; // = c value in eqaution of curve c/x
-        distance = (scale/ta) ;
+        double scale = 128.9873; // = c value in equation of curve c/x
+        double distance = (scale/ta) ;
         return distance;
     }
-
-    //MT1 haven't
-    public void getPosition(){
+    private Pose getRobotPoseFromCamera() {
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
         LLResult result = limelight.getLatestResult();
-        if (result != null && result.isValid()) {
+        double x = 0, y=0;
+        if (result != null && result.isValid()){
             Pose3D botpose = result.getBotpose();
-            if (botpose != null) {
-                double x = botpose.getPosition().x;
-                double y = botpose.getPosition().y;
-                telemetry.addData("MT1 Location", "(" + x + ", " + y + ")");
-            }
+            x = botpose.getPosition().x;
+            y= botpose.getPosition().y;
         }
+        final Pose pose = new Pose(x, y, 0, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+        return pose;
     }
-
 }
