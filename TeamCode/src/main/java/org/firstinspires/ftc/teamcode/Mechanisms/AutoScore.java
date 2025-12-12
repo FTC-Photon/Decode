@@ -21,24 +21,28 @@ public class AutoScore {
         midtake.setDirection(DcMotor.Direction.REVERSE);
 
     }
+    public void AutonIntake(double intakePower, double outtakePower) {
+        outtake.setPower(outtakePower);
+        intake.setPower(intakePower);
 
+    }
     public void AutonScore(double outtakePower, double intakePower, double midtakePower, long millis) throws InterruptedException {
         outtake.setPower(outtakePower);
-        sleep(1000);
+        sleep(750);
 
 
 
         midtake.setPower(midtakePower);
         intake.setPower(intakePower);
-        sleep(500);
+        sleep(1000);
 
         midtake.setPower(0);
         intake.setPower(0);
-        sleep(500);
+        sleep(200);
 
         midtake.setPower(midtakePower);
         intake.setPower(intakePower);
-        sleep(millis);
+        sleep(500);
         outtake.setPower(0);
         intake.setPower(0);
         midtake.setPower(0);

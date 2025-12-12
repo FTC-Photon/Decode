@@ -4,11 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Mechanisms.MecanumDrive;
+import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
 import org.firstinspires.ftc.teamcode.Mechanisms.Score;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
-import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
+
 @TeleOp
-public class FieldOrientatedOpMode extends OpMode {
+public class FieldOrientatedOpModeSingle extends OpMode {
     MecanumDrive drive = new MecanumDrive();
     double forward, strafe, rotate;
     double intakePower, outtakePower, midPower;
@@ -54,7 +55,7 @@ public class FieldOrientatedOpMode extends OpMode {
             driverPressed = false;
         }
         //toggle for the slide mode
-        if (gamepad2.dpad_down && !slidePressed) {
+        if (gamepad1.dpad_up && !slidePressed) {
             if (slideMode) {
                 slideMode = false;
             } else {
@@ -62,46 +63,30 @@ public class FieldOrientatedOpMode extends OpMode {
             }
             slidePressed = true;
         }
-        if (!gamepad2.dpad_down) {
+        if (!gamepad1.dpad_up) {
             slidePressed = false;
         }
         if (slideMode) {
-            if (gamepad2.b) {
+            if (gamepad1.b) {
                 intakePower = -1;
                 midPower = 0.5;
-            } else if (gamepad2.a) {
+            } else if (gamepad1.a) {
                 intakePower = 1;
                 midPower = -0.5;
-            } else if (gamepad1.a){
-                intakePower = 1;
-                midPower = -0.5;
-            } else if(gamepad1.b){
-                intakePower = -1;
-                midPower = 0.5;
-            }else {
+            } else {
                 intakePower=0;
                 midPower = 0;
             }
             outtakePower = -0.1;
         } else {
-            if (gamepad2.y) {
+            if (gamepad1.y) {
                 outtakePower = -1;
-            } else if (gamepad2.x) {
+            } else if (gamepad1.x) {
                 outtakePower = 1;
-            } else if (gamepad1.y) {
-                outtakePower = -1;
-            } else if(gamepad1.x){
-                outtakePower=1;
-            } else{
+            }  else{
                 outtakePower = 0;
             }
-            if (gamepad2.b) {
-
-                midPower = 1;
-            } else if (gamepad2.a) {
-                intakePower = 1;
-                midPower = -1;
-            } else if (gamepad1.a){
+            if (gamepad1.a){
                 intakePower = 1;
                 midPower = -1;
             } else if(gamepad1.b){
