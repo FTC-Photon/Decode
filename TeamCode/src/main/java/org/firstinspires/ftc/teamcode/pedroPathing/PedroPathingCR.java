@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Mechanisms.AutoScore;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 
 @Autonomous
-public class pedroPathingCR extends OpMode {
+public class PedroPathingCR extends OpMode {
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;

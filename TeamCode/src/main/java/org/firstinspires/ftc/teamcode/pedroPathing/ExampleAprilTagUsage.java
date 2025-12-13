@@ -68,16 +68,13 @@ public class ExampleAprilTagUsage extends OpMode {
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
         LLResult result = limelight.getLatestResult();
-        if (result != null && result.isValid()) {
+        double x = 0, y=0;
+        if (result != null && result.isValid()){
             Pose3D botpose = result.getBotpose();
-            if (botpose != null) {
-                double x = botpose.getPosition().x;
-                double y = botpose.getPosition().y;
-                telemetry.addData("MT1 Location", "(" + x + ", " + y + ")");
-            }
+            x = botpose.getPosition().x;
+            y= botpose.getPosition().y;
         }
-
-        //Use this to convert standard FTC coordinates to standard Pedro Pathing coordinates
-        return new Pose(0, 0, 0, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+        final Pose pose = new Pose(x, y, 0, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+        return pose;
     }
 }
