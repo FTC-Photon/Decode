@@ -216,7 +216,7 @@ public Timer getOpmodeTimer() {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Preload */
-                    autoScore.AutonOuttake(1);
+                    //autoScore.AutonOuttake(1);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
 
                     setPathState(-1);
