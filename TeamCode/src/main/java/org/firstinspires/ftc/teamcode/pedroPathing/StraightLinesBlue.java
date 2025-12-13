@@ -94,6 +94,9 @@ public class StraightLinesBlue extends OpMode {
                 .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
                 .build();
     }
+public Timer getOpmodeTimer() {
+    return opmodeTimer;
+}
 
     public void autonomousPathUpdate() throws InterruptedException {
         switch (pathState) {
@@ -122,6 +125,7 @@ public class StraightLinesBlue extends OpMode {
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(grabPickup1, true);
                     autoScore.AutonIntake(1.0,-0.2);
+
 
                     setPathState(3);
                }
@@ -212,11 +216,12 @@ public class StraightLinesBlue extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Preload */
-                    autoScore.AutonScore(1.0,1,1,250);
+                    autoScore.AutonOuttake(1);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
 
                     setPathState(-1);
                 }
+
                 break;
 
         }
@@ -230,7 +235,6 @@ public class StraightLinesBlue extends OpMode {
     /** This is the main loop of the OpMode, it will run repeatedly after clicking "Play". **/
     @Override
     public void loop() {
-
         // These loop the movements of the robot, these must be called continuously in order to work
         follower.update();
         try {
