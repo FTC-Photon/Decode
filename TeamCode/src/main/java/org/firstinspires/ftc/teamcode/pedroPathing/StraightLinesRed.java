@@ -21,13 +21,13 @@ public class StraightLinesRed extends OpMode {
     private final Pose scorePose = new Pose(94, 100, Math.toRadians(-135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //test this seems ok
     private final Pose setup1Pose = new Pose(94,84,Math.toRadians(0)); // setup for the following pose
-    private final Pose pickup1Pose = new Pose(122, 84, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1Pose = new Pose(120, 84, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
 
     private final Pose setup2Pose = new Pose(94,60,Math.toRadians(0)); // setup for the following pose
-    private final Pose pickup2Pose = new Pose(122, 60, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2Pose = new Pose(120, 60, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
 
     private final Pose setup3Pose = new Pose(94,36,Math.toRadians(0)); // setup for the following pose
-    private final Pose pickup3Pose = new Pose(122, 36, Math.toRadians(0));// Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3Pose = new Pose(120, 36, Math.toRadians(0));// Lowest (Third Set) of Artifacts from the Spike Mark.
     private Path scorePreload;
     private PathChain grabPickup1, goSetup1, scorePickup1, grabPickup2, goSetup2, scorePickup2,grabPickup3, goSetup3, scorePickup3;
     long millis;
@@ -210,7 +210,7 @@ public class StraightLinesRed extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Preload */
-                    autoScore.AutonScore(1.0,1,1,250);
+                    autoScore.AutonOuttake(1);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
 
                     setPathState(-1);
