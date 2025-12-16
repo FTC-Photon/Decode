@@ -36,11 +36,6 @@ DcMotor frontLeft,frontRight,backLeft, backRight, intake, outtake,midtake;
 
         waitForStart();
         forward(1, 100); // first moves away from goal
-        turnRight(1,500);//has to turn slightly right to get angle
-        backward(1,200);//get closer
-        AutonScore(1,1,1,1000); // made up numbers that whole class needs to be checked
-        turnRight(1,100);//get out of launch zone
-        forward(1,500);
 
     }
 

@@ -29,12 +29,7 @@ public class farBlue extends LinearOpMode {
         midtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
-        forward(1,750); //long forward
-        turnRight(1,200);//have ramp face goal ; get angle right
-        backward(1,500);//maybe to go towards
-        AutonScore(1,1, 1,1000); //score
-        turnRight(1,500);//face out to leave
-        forward(1,500); // get out
+        forward(1,100);
     }
 
     public void turnRight(double power, long mil){
