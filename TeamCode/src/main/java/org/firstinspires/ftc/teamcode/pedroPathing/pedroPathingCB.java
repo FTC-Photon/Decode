@@ -3,7 +3,6 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.HeadingInterpolator;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
@@ -177,7 +176,7 @@ public class pedroPathingCB extends OpMode {
     }
     /** This is the main loop of the OpMode, it will run repeatedly after clicking "Play". **/
     @Override
-    public void loop() {
+    public void loop () {
 
         // These loop the movements of the robot, these must be called continuously in order to work
         follower.update();
