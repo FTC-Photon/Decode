@@ -7,6 +7,9 @@ import org.firstinspires.ftc.teamcode.Mechanisms.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Mechanisms.Score;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
+import org.firstinspires.ftc.teamcode.Prism.GoBildaPrismDriver;
+import org.firstinspires.ftc.teamcode.Prism.GoBildaPrismDriver.Artboard;
+
 @TeleOp
 public class FieldOrientatedOpMode extends OpMode {
     MecanumDrive drive = new MecanumDrive();
@@ -14,7 +17,7 @@ public class FieldOrientatedOpMode extends OpMode {
     double intakePower, outtakePower, midPower;
     boolean slideMode, slidePressed, driverMode, driverPressed = false;
 
-
+    GoBildaPrismDriver prism;
 
     intake intakeHold = new intake(); //intake
     Score outtakeScore = new Score(); //score
@@ -67,6 +70,21 @@ public class FieldOrientatedOpMode extends OpMode {
         if (!gamepad2.dpad_down) {
             slidePressed = false;
         }
+
+        //  Prism Mode Status Indicators
+        if (slideMode && driverMode) {
+            prism.loadAnimationsFromArtboard(Artboard.ARTBOARD_3); // status: slide on driver on
+        }
+        if (!slideMode && driverMode) {
+            prism.loadAnimationsFromArtboard(Artboard.ARTBOARD_2); // status: slide off driver on
+        }
+        if (!driverMode && slideMode) {
+            prism.loadAnimationsFromArtboard(Artboard.ARTBOARD_1); // status: slide on driver off
+        }
+        if (!driverMode && !slideMode) {
+            prism.loadAnimationsFromArtboard(Artboard.ARTBOARD_0); // status: slide off driver off
+        }
+
         if (slideMode) {
             if (gamepad2.b) {
                 intakePower = -1;
