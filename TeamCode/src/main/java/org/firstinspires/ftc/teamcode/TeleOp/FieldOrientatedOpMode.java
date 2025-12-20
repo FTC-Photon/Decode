@@ -8,7 +8,6 @@ import org.firstinspires.ftc.teamcode.Mechanisms.Score;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
 import org.firstinspires.ftc.teamcode.Prism.GoBildaPrismDriver;
-import org.firstinspires.ftc.teamcode.Prism.GoBildaPrismDriver.Artboard;
 
 @TeleOp
 public class FieldOrientatedOpMode extends OpMode {
@@ -71,31 +70,19 @@ public class FieldOrientatedOpMode extends OpMode {
             slidePressed = false;
         }
 
-        //  Prism Mode Status Indicators
-        if (slideMode && driverMode) {
-            prism.loadAnimationsFromArtboard(Artboard.ARTBOARD_3); // status: slide on driver on
-        }
-        if (!slideMode && driverMode) {
-            prism.loadAnimationsFromArtboard(Artboard.ARTBOARD_2); // status: slide off driver on
-        }
-        if (!driverMode && slideMode) {
-            prism.loadAnimationsFromArtboard(Artboard.ARTBOARD_1); // status: slide on driver off
-        }
-        if (!driverMode && !slideMode) {
-            prism.loadAnimationsFromArtboard(Artboard.ARTBOARD_0); // status: slide off driver off
-        }
+
 
         if (slideMode) {
-            if (gamepad2.b) {
+            if (gamepad2.a) {
                 intakePower = -1;
                 midPower = 0.5;
-            } else if (gamepad2.a) {
+            } else if (gamepad2.b) {
                 intakePower = 1;
                 midPower = -0.5;
-            } else if (gamepad1.a){
+            } else if (gamepad1.b){
                 intakePower = 1;
                 midPower = -0.5;
-            } else if(gamepad1.b){
+            } else if(gamepad1.a){
                 intakePower = -1;
                 midPower = 0.5;
             }else {
@@ -104,27 +91,27 @@ public class FieldOrientatedOpMode extends OpMode {
             }
             outtakePower = -0.1;
         } else {
-            if (gamepad2.y) {
+            if (gamepad2.x) {
                 outtakePower = -1;
-            } else if (gamepad2.x) {
+            } else if (gamepad2.y) {
                 outtakePower = 1;
-            } else if (gamepad1.y) {
+            } else if (gamepad1.x) {
                 outtakePower = -1;
-            } else if(gamepad1.x){
+            } else if(gamepad1.y){
                 outtakePower=1;
             } else{
                 outtakePower = 0;
             }
-            if (gamepad2.b) {
+            if (gamepad2.a) {
 
                 midPower = 1;
-            } else if (gamepad2.a) {
+            } else if (gamepad2.b) {
                 intakePower = 1;
                 midPower = -1;
-            } else if (gamepad1.a){
+            } else if (gamepad1.b){
                 intakePower = 1;
                 midPower = -1;
-            } else if(gamepad1.b){
+            } else if(gamepad1.a){
 
                 midPower = 1;
             }else {
