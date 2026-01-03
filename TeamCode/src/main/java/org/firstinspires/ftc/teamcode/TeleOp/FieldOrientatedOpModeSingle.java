@@ -7,8 +7,7 @@ import org.firstinspires.ftc.teamcode.Mechanisms.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
 import org.firstinspires.ftc.teamcode.Mechanisms.Score;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
-import org.firstinspires.ftc.teamcode.Prism.GoBildaPrismDriver;
-import org.firstinspires.ftc.teamcode.Prism.GoBildaPrismDriver.Artboard;
+
 
 @TeleOp
 public class FieldOrientatedOpModeSingle extends OpMode {
@@ -17,7 +16,7 @@ public class FieldOrientatedOpModeSingle extends OpMode {
     double intakePower, outtakePower, midPower;
     boolean slideMode, slidePressed, driverMode, driverPressed = false;
 
-    GoBildaPrismDriver prism;
+   // GoBildaPrismDriver prism;
 
 
     intake intakeHold = new intake(); //intake
@@ -37,14 +36,15 @@ public class FieldOrientatedOpModeSingle extends OpMode {
     @Override
     public void loop() {
         if(driverMode) {
-            forward = gamepad1.left_stick_y;
-            strafe = gamepad1.left_stick_x;
+            forward = -gamepad1.left_stick_y;
+            strafe = -gamepad1.left_stick_x;
+            rotate = gamepad1.right_stick_x;
         } else {
             forward = -gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
+            rotate = gamepad1.right_stick_x;
         }
 
-        rotate = -gamepad1.right_stick_x;
         //toggle for the driver mode
         if (gamepad1.dpad_down && !driverPressed) {
             if (driverMode) {
@@ -71,7 +71,7 @@ public class FieldOrientatedOpModeSingle extends OpMode {
         }
 
         //  Prism Mode Status Indicators
-        if (slideMode && driverMode) {
+       /* if (slideMode && driverMode) {
             prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_3); // status: slide on driver on
         }
         if (!slideMode && driverMode) {
@@ -82,33 +82,33 @@ public class FieldOrientatedOpModeSingle extends OpMode {
         }
         if (!driverMode && !slideMode) {
             prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_0); // status: slide off driver off
-        }
+        }*/
 
         if (slideMode) {
-            if (gamepad1.b) {
+            if (gamepad1.a) {
                 intakePower = -1;
                 midPower = 0.5;
-            } else if (gamepad1.a) {
+            } else if (gamepad1.b) {
                 intakePower = 1;
                 midPower = -0.5;
             } else {
                 intakePower=0;
                 midPower = 0;
             }
-            outtakePower = -0.1;
+            outtakePower = 0.1;
         } else {
-            if (gamepad1.y) {
+            if (gamepad1.x) {
                 outtakePower = -1;
-            } else if (gamepad1.x) {
+            } else if (gamepad1.y) {
                 outtakePower = 1;
             }  else{
                 outtakePower = 0;
             }
-            if (gamepad1.a){
+            if (gamepad1.b){
                 intakePower = 1;
                 midPower = -1;
-            } else if(gamepad1.b){
-
+            } else if(gamepad1.a){
+                intakePower = -1;
                 midPower = 1;
             }else {
                 intakePower=0;
@@ -128,8 +128,8 @@ public class FieldOrientatedOpModeSingle extends OpMode {
         intakeHold.intakeHold(intakePower);
         midtake.midtakeHold(midPower);
         outtakeScore.outtakeScore(outtakePower);
-        telemetry.addData("slideInLaunchMode:",slideMode);
-        telemetry.addData("DriverInLaunchMode:",driverMode);
+        telemetry.addData("slideInLaunchMode:",slideMode); // if true intake mode
+        telemetry.addData("DriverInLaunchMode:",driverMode); // both false is launch mode ?????
         telemetry.update();
     }
 }
