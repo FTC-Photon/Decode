@@ -94,9 +94,6 @@ public class StraightLinesBlue extends OpMode {
                 .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
                 .build();
     }
-public Timer getOpmodeTimer() {
-    return opmodeTimer;
-}
 
     public void autonomousPathUpdate() throws InterruptedException {
         switch (pathState) {
@@ -125,7 +122,6 @@ public Timer getOpmodeTimer() {
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(grabPickup1, true);
                     autoScore.AutonIntake(1.0,-0.2);
-
 
                     setPathState(3);
                }
@@ -216,12 +212,15 @@ public Timer getOpmodeTimer() {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Preload */
+<<<<<<< HEAD
                     //autoScore.AutonOuttake(1);
+=======
+                    autoScore.AutonScore(1.0,1,1,250);
+>>>>>>> parent of 2aabde3 (Merge branch 'master' of https://github.com/FTC-Photon/Decode)
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
 
                     setPathState(-1);
                 }
-
                 break;
 
         }
@@ -235,6 +234,7 @@ public Timer getOpmodeTimer() {
     /** This is the main loop of the OpMode, it will run repeatedly after clicking "Play". **/
     @Override
     public void loop() {
+
         // These loop the movements of the robot, these must be called continuously in order to work
         follower.update();
         try {
