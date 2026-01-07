@@ -35,16 +35,14 @@ public class FieldOrientatedOpMode extends OpMode {
     @Override
     public void loop() {
         if(driverMode) {
+            forward = gamepad1.left_stick_y;
+            strafe = gamepad1.left_stick_x;
+        } else {
             forward = -gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
-            rotate = gamepad1.right_stick_x;
-        } else {
-            forward = gamepad1.left_stick_y;
-            strafe = -gamepad1.left_stick_x;
-            rotate = gamepad1.right_stick_x;
         }
 
-
+        rotate = -gamepad1.right_stick_x;
         //toggle for the driver mode
         if (gamepad1.dpad_down && !driverPressed) {
             if (driverMode) {
@@ -86,10 +84,10 @@ public class FieldOrientatedOpMode extends OpMode {
                 intakePower = -1;
                 midPower = 0.5;
             }else {
-                intakePower = 0;
+                intakePower=0;
                 midPower = 0;
             }
-            outtakePower = 0.1;
+            outtakePower = -0.1;
         } else {
             if (gamepad2.x) {
                 outtakePower = -1;
@@ -103,19 +101,19 @@ public class FieldOrientatedOpMode extends OpMode {
                 outtakePower = 0;
             }
             if (gamepad2.a) {
-                intakePower = -1;
+
                 midPower = 1;
             } else if (gamepad2.b) {
-                //intakePower = 1;
+                intakePower = 1;
                 midPower = -1;
             } else if (gamepad1.b){
-                //intakePower = 1;
+                intakePower = 1;
                 midPower = -1;
             } else if(gamepad1.a){
-                intakePower = -1;
+
                 midPower = 1;
             }else {
-                intakePower = 0;
+                intakePower=0;
                 midPower = 0;
             }
         }
