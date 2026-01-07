@@ -27,10 +27,10 @@ public class Constants {
             .rightFrontMotorName("fr")
             .leftRearMotorName("bl")
             .rightRearMotorName("br")
-            .leftFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .xVelocity(69.00)
             .yVelocity(55.00);
 
@@ -45,7 +45,7 @@ public class Constants {
             .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(8.85)
+            .mass(9.45)
             .forwardZeroPowerAcceleration(-40.5)
             .lateralZeroPowerAcceleration(-50)
             .translationalPIDFCoefficients(new PIDFCoefficients(0.04,0.000,0.001, 0.045))
