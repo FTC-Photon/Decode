@@ -4,6 +4,7 @@ import static java.lang.Thread.sleep;
 
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 public class AutoScore {
     /** has intake and outtake info for autonomous scoring possibly also needed for auto scoring in TeleOp in the future
@@ -18,7 +19,9 @@ public class AutoScore {
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         midtake =hwMap.get(DcMotor.class,"W3");
         midtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        midtake.setDirection(DcMotor.Direction.REVERSE);
+
+        intake.setDirection(DcMotor.Direction.REVERSE);
+        outtake.setDirection(DcMotor.Direction.REVERSE);
 
     }
     public void AutonIntake(double intakePower, double outtakePower) {

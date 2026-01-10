@@ -38,11 +38,11 @@ public class FieldOrientatedOpModeSingle extends OpMode {
         if(driverMode) {
             forward = -gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
-            rotate = gamepad1.right_stick_x;
+            rotate = -gamepad1.right_stick_x;
         } else {
-            forward = -gamepad1.left_stick_y;
+            forward = gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
-            rotate = gamepad1.right_stick_x;
+            rotate = -gamepad1.right_stick_x;
         }
 
         //toggle for the driver mode
