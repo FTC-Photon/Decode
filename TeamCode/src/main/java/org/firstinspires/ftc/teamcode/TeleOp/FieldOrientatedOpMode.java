@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Mechanisms.Score;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
 import org.firstinspires.ftc.teamcode.Prism.GoBildaPrismDriver;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 
 @TeleOp
 public class FieldOrientatedOpMode extends OpMode {
@@ -17,6 +18,8 @@ public class FieldOrientatedOpMode extends OpMode {
     boolean slideMode, slidePressed, driverMode, driverPressed = false;
 
     GoBildaPrismDriver prism;
+
+    public AnalogInput floodgate;
 
     intake intakeHold = new intake(); //intake
     Score outtakeScore = new Score(); //score
@@ -118,11 +121,12 @@ public class FieldOrientatedOpMode extends OpMode {
             }
         }
 
+        // Floodgate Power Switch Amperage Measure
+        floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
 
+        double voltage = floodgate.getVoltage();
 
-
-
-
+        double amperage = voltage / 3.3 * 80;
 
 
 
@@ -130,8 +134,9 @@ public class FieldOrientatedOpMode extends OpMode {
         intakeHold.intakeHold(intakePower);
         midtake.midtakeHold(midPower);
         outtakeScore.outtakeScore(outtakePower);
-        telemetry.addData("slideInLaunchMode:",slideMode);
-        telemetry.addData("DriverInLaunchMode:",driverMode);
+        telemetry.addData("Slide In Launch Mode: ",slideMode);
+        telemetry.addData("Driver In Launch Mode: ",driverMode);
+        telemetry.addData("Total Current Draw: ",amperage);
         telemetry.update();
     }
 }
