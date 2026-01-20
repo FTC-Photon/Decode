@@ -16,13 +16,14 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-public class AprilTagLimelight{
+@TeleOp
+public class AprilTagLimelight extends OpMode{
     private Limelight3A limelight;
     private IMU imu;
 
 
-
-    public void init(HardwareMap hardwareMap) {
+@Override
+    public void init() {
         limelight = hardwareMap.get(Limelight3A.class, "Limelight");
         limelight.pipelineSwitch(1);
         //april tag pipeline changes in the limelight setup
@@ -32,14 +33,28 @@ public class AprilTagLimelight{
     }
 
 
+    public void loop(){
+        LLResult result = limelight.getLatestResult();
+        if (result != null && result.isValid()) {
+            Pose3D botpose = result.getBotpose();
+            if (botpose != null) {
+                double x = botpose.getPosition().x;
+                double y = botpose.getPosition().y;
+                telemetry.addData("MT1 Location", "(" + x + ", " + y + ")");
+            }
+        }
+    }
 
-    private double getDistanceFromTag(double ta) {
+
+
+  /*  private double getDistanceFromTag(double ta) {
         //distance is the hypotenuse
         double scale = 128.9873; // = c value in equation of curve c/x
         double distance = (scale/ta) ;
         return distance;
-    }
-    private Pose getRobotPoseFromCamera() {
+    }*/
+}
+   /* private Pose getRobotPoseFromCamera() {
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
         LLResult result = limelight.getLatestResult();
@@ -52,4 +67,4 @@ public class AprilTagLimelight{
         final Pose pose = new Pose(x, y, 0, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
         return pose;
     }
-}
+}*/
