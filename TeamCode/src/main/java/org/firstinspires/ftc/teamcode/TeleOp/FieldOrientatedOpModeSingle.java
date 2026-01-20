@@ -16,9 +16,7 @@ public class FieldOrientatedOpModeSingle extends OpMode {
     double forward, strafe, rotate;
     double intakePower, outtakePower, midPower;
     boolean slideMode, slidePressed, driverMode, driverPressed = false;
-
-   // GoBildaPrismDriver prism;
-
+    
     public AnalogInput floodgate;
 
     intake intakeHold = new intake(); //intake
@@ -32,6 +30,7 @@ public class FieldOrientatedOpModeSingle extends OpMode {
         intakeHold.init(hardwareMap);//intake
         outtakeScore.init(hardwareMap);//outtake
         midtake.init(hardwareMap);
+        floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         slideMode = true;
     }
 
@@ -119,12 +118,10 @@ public class FieldOrientatedOpModeSingle extends OpMode {
         }
 
         // Floodgate Power Switch Amperage Measure
-        floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
-
         double voltage = floodgate.getVoltage();
-
+        String truncated_voltage = String.format("%.2f", voltage);
         double amperage = voltage / 3.3 * 80;
-
+        String truncated_amperage = String.format("%.2f", amperage);
 
 
         drive.drive(forward, strafe, rotate);
@@ -133,7 +130,8 @@ public class FieldOrientatedOpModeSingle extends OpMode {
         outtakeScore.outtakeScore(outtakePower);
         telemetry.addData("Slide In Launch Mode: ",slideMode); // if true intake mode
         telemetry.addData("Driver In Launch Mode: ",driverMode); // both false is launch mode ?????
-        telemetry.addData("Total Current Draw: ",amperage);
+        telemetry.addData("Floodgate Measured Voltage Representation: ",truncated_voltage + "V");
+        telemetry.addData("Total Current Draw: ",truncated_amperage + "A");
         telemetry.update();
     }
 }
