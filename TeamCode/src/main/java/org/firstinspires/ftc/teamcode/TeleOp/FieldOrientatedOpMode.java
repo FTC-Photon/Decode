@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Mechanisms.Score;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
 import org.firstinspires.ftc.teamcode.Prism.GoBildaPrismDriver;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 
 @TeleOp
 public class FieldOrientatedOpMode extends OpMode {
@@ -16,7 +17,7 @@ public class FieldOrientatedOpMode extends OpMode {
     double intakePower, outtakePower, midPower;
     boolean slideMode, slidePressed, driverMode, driverPressed = false;
 
-    GoBildaPrismDriver prism;
+    public AnalogInput floodgate;
 
     intake intakeHold = new intake(); //intake
     Score outtakeScore = new Score(); //score
@@ -29,20 +30,23 @@ public class FieldOrientatedOpMode extends OpMode {
         intakeHold.init(hardwareMap);//intake
         outtakeScore.init(hardwareMap);//outtake
         midtake.init(hardwareMap);
+        floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         slideMode = true;
     }
 
     @Override
     public void loop() {
         if(driverMode) {
-            forward = gamepad1.left_stick_y;
-            strafe = gamepad1.left_stick_x;
-        } else {
             forward = -gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
+            rotate = -gamepad1.right_stick_x;
+        } else {
+            forward = gamepad1.left_stick_y;
+            strafe = -gamepad1.left_stick_x;
+            rotate = -gamepad1.right_stick_x;
         }
 
-        rotate = -gamepad1.right_stick_x;
+
         //toggle for the driver mode
         if (gamepad1.dpad_down && !driverPressed) {
             if (driverMode) {
@@ -84,10 +88,10 @@ public class FieldOrientatedOpMode extends OpMode {
                 intakePower = -1;
                 midPower = 0.5;
             }else {
-                intakePower=0;
+                intakePower = 0;
                 midPower = 0;
             }
-            outtakePower = -0.1;
+            outtakePower = 0.1;
         } else {
             if (gamepad2.x) {
                 outtakePower = -1;
@@ -101,28 +105,28 @@ public class FieldOrientatedOpMode extends OpMode {
                 outtakePower = 0;
             }
             if (gamepad2.a) {
-
+                intakePower = -1;
                 midPower = 1;
             } else if (gamepad2.b) {
-                intakePower = 1;
+                //intakePower = 1;
                 midPower = -1;
             } else if (gamepad1.b){
-                intakePower = 1;
+                //intakePower = 1;
                 midPower = -1;
             } else if(gamepad1.a){
-
+                intakePower = -1;
                 midPower = 1;
             }else {
-                intakePower=0;
+                intakePower = 0;
                 midPower = 0;
             }
         }
 
-
-
-
-
-
+        // Floodgate Power Switch Amperage Measure
+        double voltage = floodgate.getVoltage();
+        String truncated_voltage = String.format("%.2f", voltage);
+        double amperage = voltage / 3.3 * 80;
+        String truncated_amperage = String.format("%.2f", amperage);
 
 
 
@@ -130,8 +134,10 @@ public class FieldOrientatedOpMode extends OpMode {
         intakeHold.intakeHold(intakePower);
         midtake.midtakeHold(midPower);
         outtakeScore.outtakeScore(outtakePower);
-        telemetry.addData("slideInLaunchMode:",slideMode);
-        telemetry.addData("DriverInLaunchMode:",driverMode);
+        telemetry.addData("Slide In Launch Mode: ",slideMode);
+        telemetry.addData("Driver In Launch Mode: ",driverMode);
+        telemetry.addData("Floodgate Measured Voltage Representation: ",truncated_voltage + "V");
+        telemetry.addData("Total Current Draw: ",truncated_amperage + "A");
         telemetry.update();
     }
 }

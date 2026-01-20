@@ -19,7 +19,7 @@ public class StraightLinesBlue extends OpMode {
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;
     private final Pose startPose = new Pose(34, 135, Math.toRadians(0)); // Start Pose currently left corner subject to change
-    private final Pose scorePose = new Pose(53, 97, Math.toRadians(-45)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(53, 91, Math.toRadians(-45)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //test this seems ok
     private final Pose setup1Pose = new Pose(50,84,Math.toRadians(180)); // setup for the following pose
     private final Pose pickup1Pose = new Pose(22, 84, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
@@ -34,6 +34,7 @@ public class StraightLinesBlue extends OpMode {
     long millis;
     double outtakepower = -0.1;
     double wait = 2;
+    double out = 0.775;
     AutoScore autoScore = new AutoScore(); //intake and outtake to score???
 
     intake intake = new intake(); //intake alone
@@ -106,7 +107,7 @@ public class StraightLinesBlue extends OpMode {
                 if(!follower.isBusy()) {
                     /* Score Preload */
 
-                    autoScore.AutonScore(1.0,1,1,250);
+                    autoScore.AutonScore(out,1,1,250);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(goSetup1, true);
                     setPathState(2);
@@ -143,7 +144,7 @@ public class StraightLinesBlue extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Preload */
-                    autoScore.AutonScore(1.0,1,1,250);
+                    autoScore.AutonScore(out,1,1,250);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(goSetup2, true);
                     setPathState(5);
@@ -178,7 +179,7 @@ public class StraightLinesBlue extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Preload */
-                    autoScore.AutonScore(1.0,1,1,250);
+                    autoScore.AutonScore(out,1,1,250);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(goSetup3, true);
                     setPathState(8);
@@ -215,8 +216,8 @@ public class StraightLinesBlue extends OpMode {
 
                     //autoScore.AutonOuttake(1);
 
-                    autoScore.AutonScore(1.0,1,1,250);
- https://github.com/FTC-Photon/Decode)
+                    //autoScore.AutonScore(out,1,1,250);
+
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
 
                     setPathState(-1);
