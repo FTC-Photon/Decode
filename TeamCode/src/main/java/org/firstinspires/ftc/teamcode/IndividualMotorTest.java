@@ -1,25 +1,29 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import static java.lang.Thread.sleep;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Mechanisms.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
 import org.firstinspires.ftc.teamcode.Mechanisms.Score;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
-import org.firstinspires.ftc.teamcode.Prism.GoBildaPrismDriver;
+
 
 @TeleOp
 public class IndividualMotorTest extends OpMode {
     MecanumDrive drive = new MecanumDrive();
-    private DcMotor frontLeft, frontRight, backLeft, backRight;
+    private DcMotor frontLeft, frontRight, backLeft, backRight, intake, outtake;
     intake intakeHold = new intake(); //intake
     Score outtakeScore = new Score(); //score
     Midtake midtake = new Midtake();
+    private ElapsedTime runtime = new ElapsedTime();
+    int position = 0;
+    int newPosition = 0;
+    double velocity = 0;
 
 
     public void init() {
@@ -27,6 +31,8 @@ public class IndividualMotorTest extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "fr");
         backLeft = hardwareMap.get(DcMotor.class, "bl");
         backRight = hardwareMap.get(DcMotor.class, "br");
+        intake = hardwareMap.get(DcMotor.class, "W1");
+        outtake = hardwareMap.get(DcMotor.class, "W2");
 
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -35,7 +41,8 @@ public class IndividualMotorTest extends OpMode {
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
+        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);    }
 
     @Override
     public void loop() {
@@ -53,5 +60,16 @@ public class IndividualMotorTest extends OpMode {
             backRight.setPower(0);
             backLeft.setPower(0);
         }
+        outtake.setPower(1);
+
+
+        position = outtake.getCurrentPosition();
+
+        runtime.reset();
+
+        newPosition = outtake.getCurrentPosition();
+        velocity = (newPosition - position)/runtime.milliseconds();
+        telemetry.addData("velocity",velocity);
+        telemetry.update();
     }
 }
