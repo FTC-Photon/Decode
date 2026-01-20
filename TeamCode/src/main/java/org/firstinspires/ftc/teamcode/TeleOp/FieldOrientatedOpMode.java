@@ -14,7 +14,6 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
 public class FieldOrientatedOpMode extends OpMode {
     MecanumDrive drive = new MecanumDrive();
     double forward, strafe, rotate;
-    double voltage, amperage;
     double intakePower, outtakePower, midPower;
     boolean slideMode, slidePressed, driverMode, driverPressed = false;
 
@@ -33,7 +32,6 @@ public class FieldOrientatedOpMode extends OpMode {
         intakeHold.init(hardwareMap);//intake
         outtakeScore.init(hardwareMap);//outtake
         midtake.init(hardwareMap);
-        floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         slideMode = true;
     }
 
@@ -41,11 +39,11 @@ public class FieldOrientatedOpMode extends OpMode {
     public void loop() {
         if(driverMode) {
             forward = -gamepad1.left_stick_y;
-            strafe = gamepad1.left_stick_x;
+            strafe = -gamepad1.left_stick_x;
             rotate = -gamepad1.right_stick_x;
         } else {
             forward = gamepad1.left_stick_y;
-            strafe = gamepad1.left_stick_x;
+            strafe = -gamepad1.left_stick_x;
             rotate = -gamepad1.right_stick_x;
         }
 
@@ -97,13 +95,13 @@ public class FieldOrientatedOpMode extends OpMode {
             outtakePower = 0.1;
         } else {
             if (gamepad2.x) {
-                outtakePower = -0.8;
+                outtakePower = -1;
             } else if (gamepad2.y) {
-                outtakePower = 0.8;
+                outtakePower = 1;
             } else if (gamepad1.x) {
-                outtakePower = -0.8;
+                outtakePower = -1;
             } else if(gamepad1.y){
-                outtakePower=0.8;
+                outtakePower=1;
             } else{
                 outtakePower = 0;
             }
@@ -126,11 +124,11 @@ public class FieldOrientatedOpMode extends OpMode {
         }
 
         // Floodgate Power Switch Amperage Measure
+        floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
 
+        double voltage = floodgate.getVoltage();
 
-        voltage = floodgate.getVoltage();
-
-        amperage = voltage / 3.3 * 80;
+        double amperage = voltage / 3.3 * 80;
 
 
 
@@ -140,8 +138,7 @@ public class FieldOrientatedOpMode extends OpMode {
         outtakeScore.outtakeScore(outtakePower);
         telemetry.addData("Slide In Launch Mode: ",slideMode);
         telemetry.addData("Driver In Launch Mode: ",driverMode);
-        telemetry.addData("Total Voltage Draw: ",voltage + "V");
-        telemetry.addData("Total Current Draw: ",amperage + "A");
+        telemetry.addData("Total Current Draw: ",amperage);
         telemetry.update();
     }
 }
