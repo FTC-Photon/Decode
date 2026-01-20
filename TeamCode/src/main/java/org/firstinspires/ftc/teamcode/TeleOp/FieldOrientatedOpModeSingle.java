@@ -13,9 +13,11 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
 @TeleOp
 public class FieldOrientatedOpModeSingle extends OpMode {
     MecanumDrive drive = new MecanumDrive();
+
     double forward, strafe, rotate;
     double intakePower, outtakePower, midPower;
     boolean slideMode, slidePressed, driverMode, driverPressed = false;
+    double voltage, amperage;
 
    // GoBildaPrismDriver prism;
 
@@ -32,6 +34,7 @@ public class FieldOrientatedOpModeSingle extends OpMode {
         intakeHold.init(hardwareMap);//intake
         outtakeScore.init(hardwareMap);//outtake
         midtake.init(hardwareMap);
+        floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         slideMode = true;
     }
 
@@ -119,11 +122,11 @@ public class FieldOrientatedOpModeSingle extends OpMode {
         }
 
         // Floodgate Power Switch Amperage Measure
-        floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
 
-        double voltage = floodgate.getVoltage();
 
-        double amperage = voltage / 3.3 * 80;
+        voltage = floodgate.getVoltage();
+
+        amperage = voltage / 3.3 * 80;
 
 
 
@@ -133,7 +136,8 @@ public class FieldOrientatedOpModeSingle extends OpMode {
         outtakeScore.outtakeScore(outtakePower);
         telemetry.addData("Slide In Launch Mode: ",slideMode); // if true intake mode
         telemetry.addData("Driver In Launch Mode: ",driverMode); // both false is launch mode ?????
-        telemetry.addData("Total Current Draw: ",amperage);
+        telemetry.addData("Total Voltage Draw: ",voltage + "V");
+        telemetry.addData("Total Current Draw: ",amperage + "A");
         telemetry.update();
     }
 }
