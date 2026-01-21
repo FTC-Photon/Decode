@@ -5,6 +5,8 @@ import static java.lang.Thread.sleep;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 public class AutoScore {
     /** has intake and outtake info for autonomous scoring possibly also needed for auto scoring in TeleOp in the future
     **/
@@ -42,37 +44,14 @@ public class AutoScore {
         intake.setPower(0.5*intakePower);
         sleep(2000);
 
-        /*midtake.setPower(midtakePower);
-        intake.setPower(intakePower);
-        sleep(500);*/
+
         outtake.setPower(0);
         intake.setPower(0);
         midtake.setPower(0);
-        /*outtake.setPower(outtakePower);
-        int time = 0;
-        int position = 0;
-        int newPosition = 0;
-        int velocity = 0;
 
-        while (time < 200) {
-            position = outtake.getCurrentPosition();
-            time+=1;
-            sleep(10);
-            newPosition = outtake.getCurrentPosition();
-            velocity = newPosition - position;
-            if (velocity > 25) {
-                midtake.setPower(midtakePower);
-                intake.setPower(intakePower);
-
-            } else {
-                intake.setPower(0);
-                midtake.setPower(0);
-            }
-        }
-        intake.setPower(0);
-        midtake.setPower(0);
-        outtake.setPower(0  );*/
 
 
     }
+
+
 }
