@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Mechanisms.AutoScore;
 import org.firstinspires.ftc.teamcode.Mechanisms.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
 import org.firstinspires.ftc.teamcode.Mechanisms.Score;
-import org.firstinspires.ftc.teamcode.Mechanisms.SetSpeed;
+
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 
 
