@@ -83,7 +83,7 @@ public class ShortBlue extends OpMode {
                 if (!follower.isBusy()) {
                     /* Score Preload */
 
-                    autoScore.AutonScore(out, 1, 1, 250);
+                    autoScore.AutonScore(out, 1, 1);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(Score1, true);
                     setPathState(2);
@@ -119,7 +119,7 @@ public class ShortBlue extends OpMode {
                 if (follower.isBusy()) {
                     /* Score Sample */
 
-                    autoScore.AutonScore(out, 1, 1, 250);
+                    autoScore.AutonScore(out, 1, 1);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(Score2, true);
 

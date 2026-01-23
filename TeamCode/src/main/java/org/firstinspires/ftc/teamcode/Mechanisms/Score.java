@@ -2,12 +2,11 @@ package org.firstinspires.ftc.teamcode.Mechanisms;
 
 import static java.lang.Thread.sleep;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Score {
 
-    double outtakePower;
+
     private DcMotorEx outtake;
 
     public void init(HardwareMap hwMap) {
@@ -17,7 +16,13 @@ public class Score {
 
     public void outtakeScore(double outtakeVelocity) {
         outtake.setVelocity(outtakeVelocity);
+
     }
+
+    public double getOuttakeVelocity() {
+        return outtake.getVelocity();
+    }
+
     public void autoOuttake(double outtakePower, long millis) throws InterruptedException {
         outtake.setPower(outtakePower);
         sleep(millis);

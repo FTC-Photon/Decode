@@ -33,7 +33,7 @@ public class ColorSensorTest extends OpMode {
     if (gamepad1.a) {
         telemetry.addData("button","s");
         try {
-            score1.AutonScore(1,1,1,500);
+            score1.AutonScore(1,1,1);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

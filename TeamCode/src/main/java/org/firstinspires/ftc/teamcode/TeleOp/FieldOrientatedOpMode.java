@@ -15,6 +15,8 @@ public class FieldOrientatedOpMode extends OpMode {
     MecanumDrive drive = new MecanumDrive();
     double forward, strafe, rotate;
     double intakePower, outtakePower, midPower;
+
+    double outtakeSpeed;
     boolean slideMode, slidePressed, driverMode, driverPressed = false;
 
     public AnalogInput floodgate;
@@ -32,6 +34,7 @@ public class FieldOrientatedOpMode extends OpMode {
         midtake.init(hardwareMap);
         floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         slideMode = true;
+        outtakeSpeed = 3000;
     }
 
     @Override
@@ -91,16 +94,16 @@ public class FieldOrientatedOpMode extends OpMode {
                 intakePower = 0;
                 midPower = 0;
             }
-            outtakePower = 0.1;
+            outtakePower = 100;
         } else {
             if (gamepad2.x) {
-                outtakePower = -1;
+                outtakePower = -outtakeSpeed;
             } else if (gamepad2.y) {
-                outtakePower = 1;
+                outtakePower = outtakeSpeed;
             } else if (gamepad1.x) {
-                outtakePower = -1;
+                outtakePower = -outtakeSpeed;
             } else if(gamepad1.y){
-                outtakePower=1;
+                outtakePower= outtakeSpeed;
             } else{
                 outtakePower = 0;
             }
@@ -136,6 +139,7 @@ public class FieldOrientatedOpMode extends OpMode {
         outtakeScore.outtakeScore(outtakePower);
         telemetry.addData("Slide In Launch Mode: ",slideMode);
         telemetry.addData("Driver In Launch Mode: ",driverMode);
+        telemetry.addData("Launcher Velocity", outtakeScore.getOuttakeVelocity());
         telemetry.addData("Floodgate Measured Voltage Representation: ",truncated_voltage + "V");
         telemetry.addData("Total Current Draw: ",truncated_amperage + "A");
         telemetry.update();
