@@ -24,11 +24,8 @@ public class IndividualMotorTest extends OpMode {
     Score outtakeScore = new Score(); //score
     Midtake midtake = new Midtake();
 
-    SetSpeed score = new SetSpeed();
-    private ElapsedTime runtime = new ElapsedTime();
-    int position = 0;
-    int newPosition = 0;
-    double velocity = 0;
+
+
 
 
 
@@ -63,14 +60,10 @@ public class IndividualMotorTest extends OpMode {
 
     @Override
     public void loop() {
-        targetRPM = 600;
-        deltaPos = outtake.getCurrentPosition();
-        deltaTime = runtime.milliseconds();
 
 
-        if (power > 1) {
-            power = 1;
-        }
+
+
         outtake.setPower(power);
         if (gamepad1.a) {
             frontLeft.setPower(1);
@@ -86,19 +79,9 @@ public class IndividualMotorTest extends OpMode {
             backRight.setPower(0);
             backLeft.setPower(0);
         }
-        try {
-            sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        pos = deltaPos - outtake.getCurrentPosition();
-        time = runtime.milliseconds() - deltaTime;
-        rpm = ((pos/20)/(time/60000));
-        deltaPower = (targetRPM)/(rpm+1);
-        power *= deltaPower;
 
 
-        telemetry.addData("power",power);
+
         telemetry.update();
     }
 }
