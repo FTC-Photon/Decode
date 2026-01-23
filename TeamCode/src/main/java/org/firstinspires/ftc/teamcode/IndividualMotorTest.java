@@ -31,7 +31,7 @@ public class IndividualMotorTest extends OpMode {
 
 
 
-    double pos, deltaPos, time, deltaTime, rpm, power, deltaPower, targetRPM;
+
 
 
 
@@ -64,7 +64,7 @@ public class IndividualMotorTest extends OpMode {
 
 
 
-        outtake.setPower(power);
+        
         if (gamepad1.a) {
             frontLeft.setPower(1);
         } else if (gamepad1.b) {
