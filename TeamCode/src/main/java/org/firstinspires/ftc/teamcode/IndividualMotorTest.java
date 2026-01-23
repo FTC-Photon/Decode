@@ -43,7 +43,7 @@ public class IndividualMotorTest extends OpMode {
         backRight = hardwareMap.get(DcMotor.class, "br");
         intake = hardwareMap.get(DcMotor.class, "W1");
         outtake = hardwareMap.get(DcMotor.class, "W2");
-        power = 0.5;
+
 
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -64,7 +64,7 @@ public class IndividualMotorTest extends OpMode {
 
 
 
-        
+
         if (gamepad1.a) {
             frontLeft.setPower(1);
         } else if (gamepad1.b) {
