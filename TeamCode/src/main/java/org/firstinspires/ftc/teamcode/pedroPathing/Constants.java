@@ -19,7 +19,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Constants {
 
 
-    GoBildaPinpointDriver pintpoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
+    GoBildaPinpointDriver pinpoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1.0)

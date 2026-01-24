@@ -34,7 +34,7 @@ public class FieldOrientatedOpMode extends OpMode {
         midtake.init(hardwareMap);
         floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         slideMode = true;
-        outtakeSpeed = 3000;
+        outtakeSpeed = 2000;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class FieldOrientatedOpMode extends OpMode {
                 intakePower = 0;
                 midPower = 0;
             }
-            outtakePower = 100;
+            outtakePower = 300;
         } else {
             if (gamepad2.x) {
                 outtakePower = -outtakeSpeed;

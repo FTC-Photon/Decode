@@ -35,7 +35,7 @@ public class StraightLinesRed extends OpMode {
 
     AutoScore autoScore = new AutoScore(); //intake and outtake to score???
     intake intake = new intake(); //intake alone
-    double out = 0.775;
+    double out = 2000;
     double wait = 2;
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
@@ -120,7 +120,7 @@ public class StraightLinesRed extends OpMode {
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(grabPickup1, true);
-                    autoScore.AutonIntake(1.0,-0.2);
+                    autoScore.AutonIntake(1.0,-out*0.2);
 
                     setPathState(3);
                 }
@@ -156,7 +156,7 @@ public class StraightLinesRed extends OpMode {
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(grabPickup2, true);
-                    autoScore.AutonIntake(1.0,-0.2);
+                    autoScore.AutonIntake(1.0,-out*0.2);
 
                     setPathState(6);
                 }
@@ -191,7 +191,7 @@ public class StraightLinesRed extends OpMode {
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(grabPickup3, true);
-                    autoScore.AutonIntake(1.0,-0.2);
+                    autoScore.AutonIntake(1.0,-out*0.2);
 
                     setPathState(9);
                 }

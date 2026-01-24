@@ -22,11 +22,11 @@ public class ExampleAprilTagUsage extends OpMode {
     private IMU imu;
     private Follower follower;
     private boolean following = false;
-    private final Pose TARGET_LOCATION = new Pose(30, 125, Math.toRadians(-35)); //Put the target location here
+    private final Pose TARGET_LOCATION = new Pose(53, 91, Math.toRadians(-45)); //Put the target location here
 
     @Override
     public void init() {
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        limelight = hardwareMap.get(Limelight3A.class, "Limelight");
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(getRobotPoseFromCamera()); //set your starting pose attempt to use camera 
         limelight.pipelineSwitch(1);

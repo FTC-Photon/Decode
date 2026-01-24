@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.Mechanisms;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 import static java.lang.Thread.sleep;
 
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
 public class AutoScore {
@@ -26,9 +29,12 @@ public class AutoScore {
 
     }
     public void AutonIntake(double intakePower, double outtakePower) {
-        outtake.setPower(outtakePower);
+        outtake.setVelocity(outtakePower);
         intake.setPower(intakePower);
 
+    }
+    public double getOuttakeVelocity() {
+        return outtake.getVelocity();
     }
     public void AutonScore(double outtakeVelocity, double intakePower, double midtakePower) throws InterruptedException {
 
@@ -37,13 +43,22 @@ public class AutoScore {
         midtake.setPower(0.0);
 
         outtake.setVelocity(outtakeVelocity);
-        sleep(1000);
 
 
+        int count = 0;
+        while (count < 301) {
+            if (getOuttakeVelocity() > outtakeVelocity*0.975 && getOuttakeVelocity() < outtakeVelocity*1.025) {
+                midtake.setPower(0.5 * midtakePower);
+                intake.setPower(0.5 * intakePower);
+            } else {
+                intake.setPower(0);
+                midtake.setPower(0);
 
-        midtake.setPower(0.5*midtakePower);
-        intake.setPower(0.5*intakePower);
-        sleep(2000);
+            }
+
+            count++;
+            sleep(10);
+        }
 
 
         outtake.setVelocity(0);

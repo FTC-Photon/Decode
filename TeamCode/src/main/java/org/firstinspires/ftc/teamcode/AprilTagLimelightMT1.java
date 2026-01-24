@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.pedropathing.ftc.FTCCoordinates;
+import com.pedropathing.geometry.PedroCoordinates;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -36,7 +39,12 @@ public class AprilTagLimelightMT1 extends OpMode{
             Pose3D botpose = result.getBotpose();
                 double x = botpose.getPosition().x;
                 double y = botpose.getPosition().y;
-                telemetry.addData("MT1 Location", "(" + x + ", " + y + ")");
+                double yaw = botpose.getOrientation().getYaw();
+                telemetry.addData("MT1 Location FTC", "(" + x + ", " + y + ")");
+                final Pose limelightPose = new Pose(x, y, yaw, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+               double X = limelightPose.getX();
+               double Y = limelightPose.getY();
+            telemetry.addData("MT1 Location Pedro", "(" + X + ", " + Y + ")");
         }
     }
 

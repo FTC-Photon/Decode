@@ -33,7 +33,7 @@ public class StraightLinesBlue extends OpMode {
     long millis;
     double outtakepower = -0.1;
     double wait = 2;
-    double out = 0.775;
+    double out = 1750;
     AutoScore autoScore = new AutoScore(); //intake and outtake to score???
 
     intake intake = new intake(); //intake alone
@@ -121,7 +121,7 @@ public class StraightLinesBlue extends OpMode {
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(grabPickup1, true);
-                    autoScore.AutonIntake(1.0,-0.2);
+                    autoScore.AutonIntake(1.0,-out*0.2);
 
                     setPathState(3);
                }
@@ -158,7 +158,7 @@ public class StraightLinesBlue extends OpMode {
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(grabPickup2, true);
-                    autoScore.AutonIntake(1.0,-0.2);
+                    autoScore.AutonIntake(1.0,-out*0.2);
 
                     setPathState(6);
                 }
@@ -193,7 +193,7 @@ public class StraightLinesBlue extends OpMode {
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(grabPickup3, true);
-                    autoScore.AutonIntake(1.0,-0.2);
+                    autoScore.AutonIntake(1.0,-out*0.2);
                     setPathState(9);
                 }
                 break;
@@ -249,6 +249,7 @@ public class StraightLinesBlue extends OpMode {
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("heading", follower.getPose().getHeading());
+        telemetry.addData("velocity",autoScore.getOuttakeVelocity());
         telemetry.update();
     }
 
