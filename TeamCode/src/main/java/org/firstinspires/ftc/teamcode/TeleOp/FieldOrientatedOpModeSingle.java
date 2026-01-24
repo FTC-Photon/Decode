@@ -7,6 +7,9 @@ import org.firstinspires.ftc.teamcode.Mechanisms.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
 import org.firstinspires.ftc.teamcode.Mechanisms.Score;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
+
+import org.firstinspires.ftc.teamcode.Prism.GoBildaPrismDriver;
+
 import com.qualcomm.robotcore.hardware.AnalogInput;
 
 
@@ -23,6 +26,7 @@ public class FieldOrientatedOpModeSingle extends OpMode {
     Score outtakeScore = new Score(); //score
     Midtake midtake = new Midtake();
 
+    GoBildaPrismDriver prism;
 
     @Override
     public void init() {
@@ -32,6 +36,7 @@ public class FieldOrientatedOpModeSingle extends OpMode {
         midtake.init(hardwareMap);
         floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         slideMode = true;
+        prism = hardwareMap.get(GoBildaPrismDriver.class, "prism");
     }
 
     @Override
@@ -72,18 +77,21 @@ public class FieldOrientatedOpModeSingle extends OpMode {
         }
 
         //  Prism Mode Status Indicators
-       /* if (slideMode && driverMode) {
-            prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_3); // status: slide on driver on
+        if (slideMode && driverMode) {
+            prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_3); // purple artboard 3 status: slide on driver on
         }
+
         if (!slideMode && driverMode) {
-            prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_2); // status: slide off driver on
+            prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_2); // blue artboard 2 status: slide off driver on
         }
+
         if (!driverMode && slideMode) {
-            prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_1); // status: slide on driver off
+            prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_1); // green artboard 1 status: slide on driver off
         }
+
         if (!driverMode && !slideMode) {
-            prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_0); // status: slide off driver off
-        }*/
+            prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_0); // red artboard 0 status: slide off driver off
+        }
 
         if (slideMode) {
             if (gamepad1.a) {

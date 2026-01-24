@@ -128,7 +128,7 @@ public class GoBildaPrismDriver extends I2cDeviceSynchDevice<I2cDeviceSynchSimpl
     /**
      * Register map, including register address and register type
      */
-    /* Package Private */ enum Register
+    /* Package Private */ public enum Register
     {
         DEVICE_ID         (0 , RegisterType.INT8 , RegisterAccess.READ_ONLY),
         FIRMWARE_VERSION  (1 , RegisterType.INT24, RegisterAccess.READ_ONLY),
@@ -150,7 +150,7 @@ public class GoBildaPrismDriver extends I2cDeviceSynchDevice<I2cDeviceSynchSimpl
         ANIMATION_SLOT_9  (17, RegisterType.INT32, RegisterAccess.READ_AND_WRITE),
         NULL              (18, RegisterType.INT8 , RegisterAccess.READ_ONLY);
 
-        /* Package Private */ final int address;
+        /* Package Private */ public final int address;
         /* Package Private */ final RegisterType registerType;
         /* Package Private */ final RegisterAccess registerAccess;
 

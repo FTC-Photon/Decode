@@ -7,7 +7,9 @@ import org.firstinspires.ftc.teamcode.Mechanisms.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Mechanisms.Score;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
+
 import org.firstinspires.ftc.teamcode.Prism.GoBildaPrismDriver;
+
 import com.qualcomm.robotcore.hardware.AnalogInput;
 
 @TeleOp
@@ -15,16 +17,15 @@ public class FieldOrientatedOpMode extends OpMode {
     MecanumDrive drive = new MecanumDrive();
     double forward, strafe, rotate;
     double intakePower, outtakePower, midPower;
-
-    double outtakeSpeed;
     boolean slideMode, slidePressed, driverMode, driverPressed = false;
 
+    double outtakeSpeed;
     public AnalogInput floodgate;
 
+    GoBildaPrismDriver prism;
     intake intakeHold = new intake(); //intake
     Score outtakeScore = new Score(); //score
     Midtake midtake = new Midtake();
-
 
     @Override
     public void init() {
@@ -34,12 +35,13 @@ public class FieldOrientatedOpMode extends OpMode {
         midtake.init(hardwareMap);
         floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         slideMode = true;
-        outtakeSpeed = 3000;
+        prism = hardwareMap.get(GoBildaPrismDriver.class, "prism");
+        double outtakeSpeed = 3000;
     }
 
     @Override
     public void loop() {
-        if(driverMode) {
+        if (driverMode) {
             forward = -gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
             rotate = -gamepad1.right_stick_x;
@@ -59,7 +61,7 @@ public class FieldOrientatedOpMode extends OpMode {
             }
             driverPressed = true;
         }
-        if (!gamepad1.dpad_down){
+        if (!gamepad1.dpad_down) {
             driverPressed = false;
         }
         //toggle for the slide mode
@@ -75,7 +77,22 @@ public class FieldOrientatedOpMode extends OpMode {
             slidePressed = false;
         }
 
+        //  Prism Mode Status Indicators
+        if (slideMode && driverMode) {
+            prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_3); // purple artboard 3 status: slide on driver on
+        }
 
+        if (!slideMode && driverMode) {
+            prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_2); // blue artboard 2 status: slide off driver on
+        }
+
+        if (!driverMode && slideMode) {
+            prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_1); // green artboard 1 status: slide on driver off
+        }
+
+        if (!driverMode && !slideMode) {
+            prism.loadAnimationsFromArtboard(GoBildaPrismDriver.Artboard.ARTBOARD_0); // red artboard 0 status: slide off driver off
+        }
 
         if (slideMode) {
             if (gamepad2.a) {
@@ -94,7 +111,7 @@ public class FieldOrientatedOpMode extends OpMode {
                 intakePower = 0;
                 midPower = 0;
             }
-            outtakePower = 100;
+            outtakePower = 300;
         } else {
             if (gamepad2.x) {
                 outtakePower = -outtakeSpeed;
@@ -103,7 +120,7 @@ public class FieldOrientatedOpMode extends OpMode {
             } else if (gamepad1.x) {
                 outtakePower = -outtakeSpeed;
             } else if(gamepad1.y){
-                outtakePower= outtakeSpeed;
+                outtakePower = outtakeSpeed;
             } else{
                 outtakePower = 0;
             }
