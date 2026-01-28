@@ -1,17 +1,21 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.limelight;
 
 import com.pedropathing.ftc.FTCCoordinates;
 import com.pedropathing.geometry.PedroCoordinates;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+
+import java.util.List;
 
 @Autonomous
 public class AprilTagLimelightMT1 extends OpMode{
@@ -50,24 +54,12 @@ public class AprilTagLimelightMT1 extends OpMode{
 
 
 
-  /*  private double getDistanceFromTag(double ta) {
+  private double getDistanceFromTag(double ta) {
         //distance is the hypotenuse
         double scale = 128.9873; // = c value in equation of curve c/x
         double distance = (scale/ta) ;
         return distance;
-    }*/
-}
-   /* private Pose getRobotPoseFromCamera() {
-        YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-        limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
-        LLResult result = limelight.getLatestResult();
-        double x = 0, y=0;
-        if (result != null && result.isValid()){
-            Pose3D botpose = result.getBotpose();
-            x = botpose.getPosition().x;
-            y= botpose.getPosition().y;
-        }
-        final Pose pose = new Pose(x, y, 0, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
-        return pose;
     }
-}*/
+}
+
+
