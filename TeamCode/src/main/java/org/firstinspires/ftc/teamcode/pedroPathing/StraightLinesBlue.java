@@ -33,7 +33,7 @@ public class StraightLinesBlue extends OpMode {
     long millis;
     double outtakepower = -0.1;
     double wait = 2;
-    double out = 1750;
+    double out = 1840;
     AutoScore autoScore = new AutoScore(); //intake and outtake to score???
 
     intake intake = new intake(); //intake alone

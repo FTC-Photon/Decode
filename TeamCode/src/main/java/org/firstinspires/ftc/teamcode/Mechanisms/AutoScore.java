@@ -24,8 +24,8 @@ public class AutoScore {
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         midtake =hwMap.get(DcMotorEx.class,"W3");
         midtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        intake.setDirection(DcMotorEx.Direction.REVERSE);
-        outtake.setDirection(DcMotorEx.Direction.REVERSE);
+        midtake.setDirection(DcMotorEx.Direction.REVERSE);
+        //outtake.setDirection(DcMotorEx.Direction.REVERSE);
 
     }
     public void AutonIntake(double intakePower, double outtakePower) {
@@ -47,7 +47,7 @@ public class AutoScore {
 
         int count = 0;
         while (count < 301) {
-            if (getOuttakeVelocity() > outtakeVelocity*0.975 && getOuttakeVelocity() < outtakeVelocity*1.025) {
+            if (getOuttakeVelocity() > outtakeVelocity-40 && getOuttakeVelocity() < outtakeVelocity+40) {
                 midtake.setPower(0.5 * midtakePower);
                 intake.setPower(0.5 * intakePower);
             } else {
