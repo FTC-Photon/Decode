@@ -26,7 +26,7 @@ public class AprilTagLimelightMT1 extends OpMode{
 @Override
     public void init() {
         limelight = hardwareMap.get(Limelight3A.class, "Limelight");
-        limelight.pipelineSwitch(1);
+        limelight.pipelineSwitch(0);
         //april tag pipeline changes in the limelight setup
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
@@ -44,12 +44,16 @@ public class AprilTagLimelightMT1 extends OpMode{
                 double x = botpose.getPosition().x;
                 double y = botpose.getPosition().y;
                 double yaw = botpose.getOrientation().getYaw();
-                telemetry.addData("MT1 Location FTC", "(" + x + ", " + y + ")");
+                telemetry.addData("limelight", "(" + x + ", " + y + ")");
+               // telemetry.addData("botpose", botpose.toString());
                 final Pose limelightPose = new Pose(x, y, yaw, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
-               double X = limelightPose.getX();
-               double Y = limelightPose.getY();
-            telemetry.addData("MT1 Location Pedro", "(" + X + ", " + Y + ")");
+               double X = 72+(y*39.37);
+               double Y = 72-(x*39.37);
+               telemetry.addData(" Pedro", "(" + X + ", " + Y + ")");
+        }else{
+            telemetry.addData("null or not valid", result);
         }
+        telemetry.update();
     }
 
 
