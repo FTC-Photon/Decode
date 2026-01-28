@@ -46,7 +46,7 @@ public class AutoScore {
 
 
         int count = 0;
-        while (count < 301) {
+        while (count < 201) {
             if (getOuttakeVelocity() > outtakeVelocity-40 && getOuttakeVelocity() < outtakeVelocity+40) {
                 midtake.setPower(0.5 * midtakePower);
                 intake.setPower(0.5 * intakePower);

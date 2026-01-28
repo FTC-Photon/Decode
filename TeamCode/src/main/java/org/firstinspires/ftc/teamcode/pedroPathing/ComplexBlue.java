@@ -12,15 +12,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Mechanisms.AutoScore;
+import org.firstinspires.ftc.teamcode.Mechanisms.Limelight;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 
 @Autonomous
 public class ComplexBlue extends OpMode {
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
-    private int pathState;
+    private int pathState = 0;
     private final Pose startPose = new Pose(34, 135, Math.toRadians(0)); // Start Pose currently left corner subject to change
-    private final Pose LLPose = new Pose(53,91, Math.toRadians(-90));
+    private final Pose AprilTagPose = new Pose(53,91, Math.toRadians(-90));
     private final Pose scorePose = new Pose(53, 91, Math.toRadians(-45)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
 
     private final Pose setup1Pose = new Pose(50,84,Math.toRadians(180)); // setup for the following pose
@@ -32,22 +33,24 @@ public class ComplexBlue extends OpMode {
     private final Pose setup3Pose = new Pose(50,36,Math.toRadians(180)); // setup for the following pose
     private final Pose pickup3Pose = new Pose(22, 36, Math.toRadians(180));// Lowest (Third Set) of Artifacts from the Spike Mark.
     private Path scorePreload;
-    private PathChain grabPickup1, goSetup1, scorePickup1, grabPickup2, goSetup2, scorePickup2,grabPickup3, goSetup3, scorePickup3, readTag;
+    private PathChain grabPickup1, goSetup1, scorePickup1, grabPickup2, goSetup2, scorePickup2,grabPickup3, goSetup3, scorePickup3, readTag, correction;
     int tagID, pickups;
     long wait = 500;
-    double out = 1750;
+    double out = 1850;
     AutoScore autoScore = new AutoScore(); //intake and outtake to score???
+
+    Limelight limelight = new Limelight();
 
     intake intake = new intake(); //intake alone
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         readTag = follower.pathBuilder()
-                .addPath(new BezierLine(startPose, LLPose))
-                .setLinearHeadingInterpolation(startPose.getHeading(), LLPose.getHeading())
+                .addPath(new BezierLine(startPose, AprilTagPose))
+                .setLinearHeadingInterpolation(startPose.getHeading(), AprilTagPose.getHeading())
                 .build();
 
-        scorePreload = new Path(new BezierLine(LLPose, scorePose));
-        scorePreload.setLinearHeadingInterpolation(LLPose.getHeading(), scorePose.getHeading());
+        scorePreload = new Path(new BezierLine(AprilTagPose, scorePose));
+        scorePreload.setLinearHeadingInterpolation(AprilTagPose.getHeading(), scorePose.getHeading());
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         goSetup1 = follower.pathBuilder()
@@ -107,7 +110,7 @@ public class ComplexBlue extends OpMode {
                 pickups = 0;
 
                 if(!follower.isBusy()) {
-                    //Code for recognizing the tag on the pillar goes here
+                    tagID = limelight.getTagID();
 
                     follower.followPath(scorePreload);
                     setPathState(1);
@@ -147,7 +150,8 @@ public class ComplexBlue extends OpMode {
                     }
                 }
                 break;
-            //Got to setup Position
+
+            //Got to setup Position for line 1
             case 2:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if(!follower.isBusy()) {
@@ -174,8 +178,7 @@ public class ComplexBlue extends OpMode {
                 }
                 break;
 
-
-
+                //Line 2
             case 5:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if(!follower.isBusy()) {
@@ -202,7 +205,7 @@ public class ComplexBlue extends OpMode {
                 break;
 
 
-
+            //Line 3
             case 8:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if(!follower.isBusy()) {
@@ -227,8 +230,21 @@ public class ComplexBlue extends OpMode {
                 }
                 break;
 
-
-
+            case 10:
+                Pose LLpose;
+                LLpose = limelight.getPosition();
+                if (!(LLpose == null)) {
+                    correction = follower.pathBuilder()
+                            .addPath(new BezierLine(LLpose, scorePose))
+                            .setLinearHeadingInterpolation(LLpose.getHeading(), scorePose.getHeading())
+                            .build();
+                    follower.followPath(correction);
+                    if (!follower.isBusy()) {
+                        setPathState(1);
+                    }
+                } else{
+                    setPathState(1);
+                }
         }
     }
 
