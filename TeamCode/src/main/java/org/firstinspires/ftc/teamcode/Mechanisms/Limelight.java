@@ -38,7 +38,7 @@ public class Limelight{
     public int getTagID() {
         LLResult result = limelight.getLatestResult();
         List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
-        if (fiducials.size() > 0) {
+        if (!fiducials.isEmpty()) {
             LLResultTypes.FiducialResult fiducial = fiducials.get(0);
             return fiducial.getFiducialId();
         } else {
