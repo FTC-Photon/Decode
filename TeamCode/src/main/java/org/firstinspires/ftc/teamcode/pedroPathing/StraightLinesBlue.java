@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import static java.lang.Thread.sleep;
+
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
@@ -28,11 +30,12 @@ public class StraightLinesBlue extends OpMode {
 
     private final Pose setup3Pose = new Pose(50,36,Math.toRadians(180)); // setup for the following pose
     private final Pose pickup3Pose = new Pose(22, 36, Math.toRadians(180));// Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose endPose = new Pose(56, 18, Math.toRadians(-68));// Lowest (Third Set) of Artifacts from the Spike Mark.
     private Path scorePreload;
     private PathChain grabPickup1, goSetup1, scorePickup1, grabPickup2, goSetup2, scorePickup2,grabPickup3, goSetup3, scorePickup3;
     long millis;
     double outtakepower = -0.1;
-    double wait = 2;
+    long wait = 200;
     double out = 1840;
     AutoScore autoScore = new AutoScore(); //intake and outtake to score???
 
@@ -90,8 +93,8 @@ public class StraightLinesBlue extends OpMode {
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup3 = follower.pathBuilder()
-                .addPath(new BezierLine(pickup3Pose, scorePose))
-                .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
+                .addPath(new BezierLine(pickup3Pose, endPose))
+                .setLinearHeadingInterpolation(pickup3Pose.getHeading(), endPose.getHeading())
                 .build();
     }
 
@@ -107,6 +110,7 @@ public class StraightLinesBlue extends OpMode {
                     /* Score Preload */
 
                     autoScore.AutonScore(out,1,1);
+                    autoScore.AutonIntake(-1.0,-out*0.2);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(goSetup1, true);
                     setPathState(2);
@@ -129,13 +133,13 @@ public class StraightLinesBlue extends OpMode {
             case 3:
 
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(pathTimer.getElapsedTimeSeconds() > wait) {
+                if(!follower.isBusy()) {
                     /* Score Sample */
 
                     autoScore.AutonIntake(0.0,0.0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(scorePickup1,true);
-
+                    sleep(wait);
                     setPathState(4);
                 }
                 break;
@@ -144,6 +148,7 @@ public class StraightLinesBlue extends OpMode {
                 if(!follower.isBusy()) {
                     /* Score Preload */
                     autoScore.AutonScore(out,1,1);
+                    autoScore.AutonIntake(-1.0,-out*0.2);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(goSetup2, true);
                     setPathState(5);
@@ -166,11 +171,12 @@ public class StraightLinesBlue extends OpMode {
             case 6:
 
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(pathTimer.getElapsedTimeSeconds() > wait) {
+                if(!follower.isBusy()) {
                     /* Score Sample */
                     autoScore.AutonIntake(0.0,0.0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(scorePickup2,true);
+                    sleep(wait);
                     setPathState(7);
                 }
                 break;
@@ -179,6 +185,7 @@ public class StraightLinesBlue extends OpMode {
                 if(!follower.isBusy()) {
                     /* Score Preload */
                     autoScore.AutonScore(out,1,1);
+                    autoScore.AutonIntake(-1.0,-out*0.2);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(goSetup3, true);
                     setPathState(8);
@@ -200,11 +207,12 @@ public class StraightLinesBlue extends OpMode {
             case 9:
 
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(pathTimer.getElapsedTimeSeconds() > wait) {
+                if(!follower.isBusy()) {
                     /* Score Sample */
                     autoScore.AutonIntake(0.0,0.0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(scorePickup3,true);
+                    sleep(wait);
                     setPathState(10);
                 }
                 break;
@@ -213,9 +221,9 @@ public class StraightLinesBlue extends OpMode {
                 if(!follower.isBusy()) {
                     /* Score Preload */
 
-                    //autoScore.AutonOuttake(1);
 
-                    //autoScore.AutonScore(out,1,1,250);
+
+                    autoScore.AutonScore(2500,1,1);
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
 

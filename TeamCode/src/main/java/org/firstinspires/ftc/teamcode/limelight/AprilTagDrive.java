@@ -28,7 +28,7 @@ public class AprilTagDrive extends OpMode {
     private Follower follower;
     private final Pose TARGET_LOCATION = new Pose(53, 91, Math.toRadians(-45));
     private PathChain score;
-    MecanumDrive drive = new MecanumDrive();
+    //MecanumDrive drive = new MecanumDrive();
     double forward, strafe, rotate;
 
     public AnalogInput floodgate;
@@ -43,7 +43,7 @@ public class AprilTagDrive extends OpMode {
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
         imu.initialize(new IMU.Parameters(revHubOrientationOnRobot));
-        drive.init(hardwareMap); //drive
+        //drive.init(hardwareMap); //drive
 
         floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         score = follower.pathBuilder() //Lazy Curve Generation
@@ -55,16 +55,30 @@ public class AprilTagDrive extends OpMode {
 
     @Override
     public void loop() {
-        follower.update();
 
-        if(gamepad1.a){
+
+        if(gamepad1.a) {
+
+            score = follower.pathBuilder() //Lazy Curve Generation
+                    .addPath(new Path(new BezierLine(getRobotPoseFromCamera(), TARGET_LOCATION)))
+                    .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
+                    .build();
+        }
+        if (gamepad1.b) {
+
+
             follower.followPath(score);
-        } else{
+
+            follower.update();
+            }
+        else {
             forward = -gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
-            rotate = -gamepad1.right_stick_x;}
+            rotate = -gamepad1.right_stick_x;
+            //drive.drive(forward, strafe, rotate);
+        }
 
-        drive.drive(forward, strafe, rotate);
+
     }
 
     @Override
