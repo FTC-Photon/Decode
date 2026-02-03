@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Mechanisms;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 import static java.lang.Thread.sleep;
 
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -22,9 +24,11 @@ public class AutoScore {
         outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake = hwMap.get(DcMotorEx.class, "W1");
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        midtake =hwMap.get(DcMotorEx.class,"W3");
+        midtake = hwMap.get(DcMotorEx.class,"W3");
         midtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         midtake.setDirection(DcMotorEx.Direction.REVERSE);
+
+        //intake.setDirection(DcMotorEx.Direction.REVERSE);
         //outtake.setDirection(DcMotorEx.Direction.REVERSE);
 
     }

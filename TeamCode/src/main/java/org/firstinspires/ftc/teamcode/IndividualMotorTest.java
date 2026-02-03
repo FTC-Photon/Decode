@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static java.lang.Thread.sleep;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Mechanisms.Midtake;
 import org.firstinspires.ftc.teamcode.Mechanisms.Score;
 
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
+import org.firstinspires.ftc.teamcode.Mechanisms.AutoScore;
 
 
 @TeleOp
@@ -26,7 +28,7 @@ public class IndividualMotorTest extends OpMode {
 
 
 
-
+    AutoScore autoScore = new AutoScore();
 
 
 
@@ -41,8 +43,9 @@ public class IndividualMotorTest extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "fr");
         backLeft = hardwareMap.get(DcMotor.class, "bl");
         backRight = hardwareMap.get(DcMotor.class, "br");
-        intake = hardwareMap.get(DcMotor.class, "W1");
-        outtake = hardwareMap.get(DcMotor.class, "W2");
+        //intake = hardwareMap.get(DcMotor.class, "W1");
+        //outtake = hardwareMap.get(DcMotor.class, "W2");
+
 
 
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -52,10 +55,10 @@ public class IndividualMotorTest extends OpMode {
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        outtake.setDirection(DcMotor.Direction.REVERSE);
+        //outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        autoScore.init(hardwareMap);
+        //intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //outtake.setDirection(DcMotor.Direction.REVERSE);
     }
 
     @Override
@@ -78,6 +81,15 @@ public class IndividualMotorTest extends OpMode {
             frontRight.setPower(0);
             backRight.setPower(0);
             backLeft.setPower(0);
+        }
+        if (gamepad2.a) {
+            try {
+                autoScore.AutonScore(1840,1,1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (gamepad2.b) {
+            autoScore.AutonIntake(1,-300);
         }
 
 

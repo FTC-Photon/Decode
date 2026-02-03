@@ -106,12 +106,13 @@ public class ComplexBlue extends OpMode {
         switch (pathState) {
             //Read Tag
             case 0:
-                follower.followPath(readTag,true);
+                follower.followPath(readTag);
                 pickups = 0;
 
                 if(!follower.isBusy()) {
-                    tagID = limelight.getTagID();
-
+                    tagID = 21;
+                            //limelight.getTagID();
+                        telemetry.addData("tagId",tagID);
                     follower.followPath(scorePreload);
                     setPathState(1);
                 }

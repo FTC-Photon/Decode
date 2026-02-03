@@ -18,8 +18,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
 import java.util.List;
 
-@Autonomous
-public class Limelight{
+
+public class Limelight {
     private Limelight3A limelight;
     private IMU imu;
 
@@ -36,15 +36,16 @@ public class Limelight{
     }
 
     public int getTagID() {
-        limelight.pipelineSwitch(0);
-        LLResult result = limelight.getLatestResult();
+        //limelight.pipelineSwitch(1);
+        /*LLResult result = limelight.getLatestResult();
         List<LLResultTypes.FiducialResult> fiducials = result.getFiducialResults();
         if (!fiducials.isEmpty()) {
             LLResultTypes.FiducialResult fiducial = fiducials.get(0);
             return fiducial.getFiducialId();
         } else {
             return 0;
-        }
+        }*/
+        return 21;
     }
 
 
@@ -79,6 +80,8 @@ public class Limelight{
         double distance = (scale/ta) ;
         return distance;
     }
+
+
 }
 
 

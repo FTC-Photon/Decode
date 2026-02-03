@@ -33,7 +33,7 @@ public class PrismModeWrite extends LinearOpMode {
 
         prism.enableDefaultBootArtboard(true);
         prism.setDefaultBootArtboard(Artboard.ARTBOARD_0);
-        prism.setStripLength(22);
+        prism.setStripLength(24);
 
         PrismAnimations.Solid solid = new PrismAnimations.Solid(Color.YELLOW);
         PrismAnimations.DroidScan droidScan = new PrismAnimations.DroidScan(Color.CYAN);
@@ -46,11 +46,11 @@ public class PrismModeWrite extends LinearOpMode {
 
         solid.setBrightness(100);
         solid.setStartIndex(0);
-        solid.setStopIndex(22);
+        solid.setStopIndex(24);
 
         droidScan.setBrightness(100);
         droidScan.setStartIndex(0);
-        droidScan.setStopIndex(22);
+        droidScan.setStopIndex(24);
 
         pulse.setBrightness(100);
 
@@ -60,17 +60,20 @@ public class PrismModeWrite extends LinearOpMode {
         prism.insertAndUpdateAnimation(LayerHeight.LAYER_1, droidScan);
         sleep(500);
         prism.saveCurrentAnimationsToArtboard(Artboard.ARTBOARD_0);
-
+        sleep(2000);
+        prism.clearAllAnimations();
         // Artboard 1: Slide on Driver off
 
         prism.insertAndUpdateAnimation(LayerHeight.LAYER_0, solid);
         prism.insertAndUpdateAnimation(LayerHeight.LAYER_1, droidScan);
         // top-right green indicates slide mode on
-        pulse.setStartIndex(9);
+        pulse.setStartIndex(8);
         pulse.setStopIndex(12);
         prism.insertAndUpdateAnimation(LayerHeight.LAYER_2, pulse);
         sleep(500);
         prism.saveCurrentAnimationsToArtboard(Artboard.ARTBOARD_1);
+        sleep(2000);
+        prism.clearAllAnimations();
 
         // Artboard 2: Slide off Driver on
 
@@ -78,28 +81,47 @@ public class PrismModeWrite extends LinearOpMode {
         prism.insertAndUpdateAnimation(LayerHeight.LAYER_1, droidScan);
         // top-left green indicates driver mode on
         pulse.setStartIndex(13);
-        pulse.setStopIndex(16);
+        pulse.setStopIndex(17);
         prism.insertAndUpdateAnimation(LayerHeight.LAYER_2, pulse);
         sleep(500);
         prism.saveCurrentAnimationsToArtboard(Artboard.ARTBOARD_2);
+        sleep(2000);
+        prism.clearAllAnimations();
 
         // Artboard 3: Slide on Driver on
 
         prism.insertAndUpdateAnimation(LayerHeight.LAYER_0, solid);
         prism.insertAndUpdateAnimation(LayerHeight.LAYER_1, droidScan);
         // top-right green indicates slide mode on
-        pulse.setStartIndex(9);
+        pulse.setStartIndex(8);
         pulse.setStopIndex(12);
         prism.insertAndUpdateAnimation(LayerHeight.LAYER_2, pulse);
         // top-left green indicates driver mode on
         pulse.setStartIndex(13);
-        pulse.setStopIndex(16);
+        pulse.setStopIndex(17);
         prism.insertAndUpdateAnimation(LayerHeight.LAYER_3, pulse);
         sleep(500);
-        prism.saveCurrentAnimationsToArtboard(Artboard.ARTBOARD_2);
+        prism.saveCurrentAnimationsToArtboard(Artboard.ARTBOARD_3);
+        sleep(2000);
+        prism.clearAllAnimations();
 
-        sleep(1000);
-        telemetry.addLine("4 Artboards set");
+        sleep(3000);
+        telemetry.addLine("Done");
         telemetry.update();
+
+        prism.loadAnimationsFromArtboard(Artboard.ARTBOARD_1);
+        telemetry.addLine("Artboard 1 True False");
+        telemetry.update();
+        sleep(1000);
+
+        prism.loadAnimationsFromArtboard(Artboard.ARTBOARD_2);
+        telemetry.addLine("Artboard 2 False True");
+        telemetry.update();
+        sleep(1000);
+
+        prism.loadAnimationsFromArtboard(Artboard.ARTBOARD_3);
+        telemetry.addLine("Artboard 3 True True");
+        telemetry.update();
+        sleep(1000);
     }
 }

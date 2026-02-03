@@ -36,11 +36,12 @@ public class FieldOrientatedOpMode extends OpMode {
         floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         slideMode = true;
         prism = hardwareMap.get(GoBildaPrismDriver.class, "prism");
-        double outtakeSpeed = 3000;
+
     }
 
     @Override
     public void loop() {
+        outtakeSpeed = 1840;
         if (driverMode) {
             forward = -gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
@@ -115,6 +116,7 @@ public class FieldOrientatedOpMode extends OpMode {
         } else {
             if (gamepad2.x) {
                 outtakePower = -outtakeSpeed;
+
             } else if (gamepad2.y) {
                 outtakePower = outtakeSpeed;
             } else if (gamepad1.x) {

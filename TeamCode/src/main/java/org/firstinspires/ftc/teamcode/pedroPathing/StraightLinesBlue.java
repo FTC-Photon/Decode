@@ -36,7 +36,7 @@ public class StraightLinesBlue extends OpMode {
     double out = 1840;
     AutoScore autoScore = new AutoScore(); //intake and outtake to score???
 
-    intake intake = new intake(); //intake alone
+
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         scorePreload = new Path(new BezierLine(startPose, scorePose));
@@ -265,7 +265,7 @@ public class StraightLinesBlue extends OpMode {
         buildPaths();
         follower.setStartingPose(startPose);
 
-        intake.init(hardwareMap);
+
         autoScore.init(hardwareMap);
 
 

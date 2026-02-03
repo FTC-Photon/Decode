@@ -26,7 +26,6 @@ public class AprilTagDrive extends OpMode {
     private Limelight3A limelight;
     private IMU imu;
     private Follower follower;
-    private boolean following = false;
     private final Pose TARGET_LOCATION = new Pose(53, 91, Math.toRadians(-45));
     private PathChain score;
     MecanumDrive drive = new MecanumDrive();
@@ -47,9 +46,8 @@ public class AprilTagDrive extends OpMode {
         drive.init(hardwareMap); //drive
 
         floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
-        double outtakeSpeed = 3000;
         score = follower.pathBuilder() //Lazy Curve Generation
-                .addPath(new Path(new BezierLine(getRobotPoseFromCamera(), new Pose(45, 98))))
+                .addPath(new Path(new BezierLine(getRobotPoseFromCamera(), TARGET_LOCATION)))
                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
                 .build();
 
@@ -59,10 +57,14 @@ public class AprilTagDrive extends OpMode {
     public void loop() {
         follower.update();
 
-        if(gamepad1.right_bumper){
+        if(gamepad1.a){
             follower.followPath(score);
-        }
+        } else
+            forward = -gamepad1.left_stick_y;
+            strafe = -gamepad1.left_stick_x;
+            rotate = -gamepad1.right_stick_x;
 
+        drive.drive(forward, strafe, rotate);
     }
 
     @Override
@@ -89,7 +91,6 @@ public class AprilTagDrive extends OpMode {
                 telemetry.addLine("Not valid");
 
             }
-        final Pose pose = new Pose(X, Y, yaw, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
-        return pose;
+        return new Pose(X, Y, yaw, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
     }
 }

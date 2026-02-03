@@ -35,7 +35,7 @@ public class StraightLinesRed extends OpMode {
 
     AutoScore autoScore = new AutoScore(); //intake and outtake to score???
     intake intake = new intake(); //intake alone
-    double out = 2000;
+    double out = 1840;
     double wait = 2;
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */

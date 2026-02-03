@@ -12,6 +12,7 @@ public class Score {
     public void init(HardwareMap hwMap) {
         outtake = hwMap.get(DcMotorEx.class, "W2");
         outtake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        outtake.setDirection(DcMotorEx.Direction.REVERSE);
     }
 
     public void outtakeScore(double outtakeVelocity) {
