@@ -61,6 +61,7 @@ public class AprilTagDrive extends OpMode {
 
         if (gamepad1.b) {
             follower.followPath(score);
+<<<<<<< HEAD
             follower.update();
             }
         else {
@@ -70,6 +71,12 @@ public class AprilTagDrive extends OpMode {
             //drive.drive(forward, strafe, rotate);
         }
 
+=======
+        } else
+            forward = -gamepad1.left_stick_y;
+            strafe = -gamepad1.left_stick_x;
+            rotate = -gamepad1.right_stick_x;
+>>>>>>> parent of 3862a57 (limelight drive refining)
 
     }
 
