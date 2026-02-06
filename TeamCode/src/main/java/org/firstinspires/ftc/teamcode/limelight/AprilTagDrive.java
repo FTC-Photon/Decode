@@ -28,7 +28,6 @@ public class AprilTagDrive extends OpMode {
     private Follower follower;
     private final Pose TARGET_LOCATION = new Pose(53, 91, Math.toRadians(-45));
     private PathChain score;
-    //MecanumDrive drive = new MecanumDrive();
     MecanumDrive drive = new MecanumDrive();
     double forward, strafe, rotate;
 
@@ -47,6 +46,7 @@ public class AprilTagDrive extends OpMode {
         //drive.init(hardwareMap); //drive
         floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         buildPaths();
+        drive.init(hardwareMap);
     }
 
     public void buildPaths(){
@@ -67,10 +67,9 @@ public class AprilTagDrive extends OpMode {
             forward = -gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
             rotate = -gamepad1.right_stick_x;
-            //drive.drive(forward, strafe, rotate);
         }
 
-
+        drive.drive(forward, strafe, rotate);
     }
 
     @Override
@@ -97,6 +96,8 @@ public class AprilTagDrive extends OpMode {
                 telemetry.addLine("Not valid");
 
             }
+            telemetry.update();
         return new Pose(X, Y, yaw, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+
     }
 }
