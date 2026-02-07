@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.limelight;
+
 import com.pedropathing.follower.Follower;
 import com.pedropathing.ftc.FTCCoordinates;
 import com.pedropathing.geometry.BezierLine;
@@ -13,7 +14,6 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
@@ -45,30 +45,28 @@ public class AprilTagDrive extends OpMode {
         imu.initialize(new IMU.Parameters(revHubOrientationOnRobot));
         //drive.init(hardwareMap); //drive
         floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
-       // buildPaths();
-
+        buildPaths();
         drive.init(hardwareMap);
     }
 
     public void buildPaths(){
-
+        score = follower.pathBuilder() //Lazy Curve Generation
+                .addPath(new Path(new BezierLine(getRobotPoseFromCamera(), TARGET_LOCATION)))
+                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
+                .build();
     }
 
     @Override
     public void loop() {
-        follower.update();
-        telemetry.update();
+
         if (gamepad1.b) {
-            score = follower.pathBuilder() //Lazy Curve Generation
-                    .addPath(new Path(new BezierLine(getRobotPoseFromCamera(), TARGET_LOCATION)))
-                    .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
-                    .build();
             follower.followPath(score);
+            follower.update();
             }
         else {
-            forward = gamepad1.left_stick_y;
+            forward = -gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
-            rotate = gamepad1.right_stick_x;
+            rotate = -gamepad1.right_stick_x;
         }
 
         drive.drive(forward, strafe, rotate);
@@ -96,8 +94,10 @@ public class AprilTagDrive extends OpMode {
                 telemetry.addData(" Pedro", "(" + X + ", " + Y + ")");
             }else{
                 telemetry.addLine("Not valid");
-                telemetry.update();
+
             }
+            telemetry.update();
         return new Pose(X, Y, yaw, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+
     }
 }
