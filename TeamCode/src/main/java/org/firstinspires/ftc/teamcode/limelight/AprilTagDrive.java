@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.limelight;
-
 import com.pedropathing.follower.Follower;
 import com.pedropathing.ftc.FTCCoordinates;
 import com.pedropathing.geometry.BezierLine;
@@ -43,7 +42,6 @@ public class AprilTagDrive extends OpMode {
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
         imu.initialize(new IMU.Parameters(revHubOrientationOnRobot));
-        //drive.init(hardwareMap); //drive
         floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         buildPaths();
         drive.init(hardwareMap);
@@ -58,15 +56,16 @@ public class AprilTagDrive extends OpMode {
 
     @Override
     public void loop() {
-
+        follower.update();
+        telemetry.update();
         if (gamepad1.b) {
             follower.followPath(score);
-            follower.update();
             }
         else {
-            forward = -gamepad1.left_stick_y;
+            forward = gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
-            rotate = -gamepad1.right_stick_x;
+            rotate = gamepad1.right_stick_x;
+
         }
 
         drive.drive(forward, strafe, rotate);
@@ -83,21 +82,22 @@ public class AprilTagDrive extends OpMode {
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
         LLResult result = limelight.getLatestResult();
+        if (result != null && result.isValid()) {
             Pose3D botpose = result.getBotpose();
             double x = botpose.getPosition().x;
             double y= botpose.getPosition().y;
             double yaw = botpose.getOrientation().getYaw();
             double X = 72+(y*39.37);
             double Y = 72-(x*39.37);
-            if (result.isValid())  {
+
                 telemetry.addLine("valid");
                 telemetry.addData(" Pedro", "(" + X + ", " + Y + ")");
+            return new Pose(X, Y, yaw, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
             }else{
                 telemetry.addLine("Not valid");
-
+            return new Pose(0, 0, 0, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
             }
-            telemetry.update();
-        return new Pose(X, Y, yaw, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+
 
     }
 }
