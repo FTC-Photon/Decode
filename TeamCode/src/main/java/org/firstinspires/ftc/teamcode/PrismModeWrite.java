@@ -33,17 +33,17 @@ public class PrismModeWrite extends LinearOpMode {
 
         prism.enableDefaultBootArtboard(true);
         prism.setDefaultBootArtboard(Artboard.ARTBOARD_0);
-        prism.setStripLength(24);
+        prism.setStripLength(29);
 
-        PrismAnimations.Solid solid = new PrismAnimations.Solid(Color.YELLOW);
+   /*     PrismAnimations.Solid solid = new PrismAnimations.Solid(Color.YELLOW);
         PrismAnimations.DroidScan droidScan = new PrismAnimations.DroidScan(Color.CYAN);
         PrismAnimations.Pulse pulse = new PrismAnimations.Pulse(Color.GREEN);
 
-
+*/
         // Wait for the game to start (driver presses START)
         waitForStart();
         resetRuntime();
-
+/*
         solid.setBrightness(100);
         solid.setStartIndex(0);
         solid.setStopIndex(24);
@@ -122,6 +122,6 @@ public class PrismModeWrite extends LinearOpMode {
         prism.loadAnimationsFromArtboard(Artboard.ARTBOARD_3);
         telemetry.addLine("Artboard 3 True True");
         telemetry.update();
-        sleep(1000);
+        sleep(1000);*/
     }
 }

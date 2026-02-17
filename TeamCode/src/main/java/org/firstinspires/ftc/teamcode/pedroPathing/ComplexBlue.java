@@ -1,29 +1,39 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
-import static android.os.SystemClock.sleep;
+import static java.lang.Thread.sleep;
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.ftc.FTCCoordinates;
 import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.PedroCoordinates;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Mechanisms.AutoScore;
-import org.firstinspires.ftc.teamcode.Mechanisms.Limelight;
 import org.firstinspires.ftc.teamcode.Mechanisms.intake;
 
 @Autonomous
 public class ComplexBlue extends OpMode {
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
-    private int pathState = 0;
+    private Limelight3A limelight;
+    private IMU imu;
+    private int pathState;
     private final Pose startPose = new Pose(34, 135, Math.toRadians(0)); // Start Pose currently left corner subject to change
-    private final Pose AprilTagPose = new Pose(53,91, Math.toRadians(-90));
-    private final Pose scorePose = new Pose(53, 91, Math.toRadians(-45)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-
+    private final Pose scorePose = new Pose(53, 87 ,Math.toRadians(-45)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    //test this seems ok
     private final Pose setup1Pose = new Pose(50,84,Math.toRadians(180)); // setup for the following pose
     private final Pose pickup1Pose = new Pose(22, 84, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
 
@@ -32,25 +42,25 @@ public class ComplexBlue extends OpMode {
 
     private final Pose setup3Pose = new Pose(50,36,Math.toRadians(180)); // setup for the following pose
     private final Pose pickup3Pose = new Pose(22, 36, Math.toRadians(180));// Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose endPose = new Pose(56, 18, Math.toRadians(-68));// Lowest (Third Set) of Artifacts from the Spike Mark.
     private Path scorePreload;
-    private PathChain grabPickup1, goSetup1, scorePickup1, grabPickup2, goSetup2, scorePickup2,grabPickup3, goSetup3, scorePickup3, readTag, correction;
-    int tagID, pickups;
-    long wait = 500;
-    double out = 1850;
+    private Pose correction;
+    private PathChain grabPickup1, goSetup1, scorePickup1, grabPickup2, goSetup2, scorePickup2,grabPickup3, goSetup3, scorePickup3, adjustment;
+    long millis;
+    int line = 0;
+    double outtakepower = -0.1;
+    long wait = 200;
+    double out = 1840;
     AutoScore autoScore = new AutoScore(); //intake and outtake to score???
 
-    Limelight limelight = new Limelight();
 
-    intake intake = new intake(); //intake alone
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
-        readTag = follower.pathBuilder()
-                .addPath(new BezierLine(startPose, AprilTagPose))
-                .setLinearHeadingInterpolation(startPose.getHeading(), AprilTagPose.getHeading())
-                .build();
+        scorePreload = new Path(new BezierLine(startPose, scorePose));
+        scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
 
-        scorePreload = new Path(new BezierLine(AprilTagPose, scorePose));
-        scorePreload.setLinearHeadingInterpolation(AprilTagPose.getHeading(), scorePose.getHeading());
+    /* Here is an example for Constant Interpolation
+    scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         goSetup1 = follower.pathBuilder()
@@ -65,7 +75,7 @@ public class ComplexBlue extends OpMode {
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup1 = follower.pathBuilder()
-               .addPath(new BezierLine(pickup1Pose, scorePose))
+                .addPath(new BezierLine(pickup1Pose, scorePose))
                 .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading())
                 .build();
 
@@ -97,62 +107,31 @@ public class ComplexBlue extends OpMode {
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup3 = follower.pathBuilder()
-                .addPath(new BezierLine(pickup3Pose, scorePose))
-                .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
+                .addPath(new BezierLine(pickup3Pose, endPose))
+                .setLinearHeadingInterpolation(pickup3Pose.getHeading(), endPose.getHeading())
                 .build();
     }
 
     public void autonomousPathUpdate() throws InterruptedException {
         switch (pathState) {
-            //Read Tag
             case 0:
-                follower.followPath(readTag);
-                pickups = 0;
-
-                if(!follower.isBusy()) {
-                    tagID = 21;
-                            //limelight.getTagID();
-                        telemetry.addData("tagId",tagID);
-                    follower.followPath(scorePreload);
-                    setPathState(1);
-                }
+                follower.followPath(scorePreload);
+                setPathState(11);
                 break;
-            //Score Preload
             case 1:
-
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Preload */
+
                     autoScore.AutonScore(out,1,1);
-                    pickups+=1;
-                    if (pickups == 1) {
-                        if (tagID == 21) {
-                            follower.followPath(goSetup1, true);
-                            setPathState(5);
-                        } else if (tagID == 22) {
-                            follower.followPath(goSetup2, true);
-                            setPathState(2);
-                        } else { //tagID is 23
-                            follower.followPath(goSetup3, true);
-                            setPathState(8);
-                        }
-                    } else if (pickups == 2) {
-                        if (tagID == 21) {
-                            follower.followPath(goSetup1, true);
-                            setPathState(2);
-                        } else if (tagID == 22) {
-                            follower.followPath(goSetup2, true);
-                            setPathState(8);
-                        } else {//tagID is 23
-                            follower.followPath(goSetup3, true);
-                            setPathState(5);
-                        }
-                    } else {
-                        stop();
-                    }
+                    autoScore.AutonIntake(-1.0,-out*0.2);
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+                    follower.followPath(goSetup1, true);
+                    setPathState(2);
                 }
                 break;
 
-            //Got to setup Position for line 1
+
             case 2:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if(!follower.isBusy()) {
@@ -163,23 +142,34 @@ public class ComplexBlue extends OpMode {
                     autoScore.AutonIntake(1.0,-out*0.2);
 
                     setPathState(3);
-               }
+                }
                 break;
             case 3:
 
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Sample */
-                    sleep(wait);
+
                     autoScore.AutonIntake(0.0,0.0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(scorePickup1,true);
-
-                    setPathState(1);
+                    sleep(wait);
+                    setPathState(11);
+                }
+                break;
+            case 4:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+                if(!follower.isBusy()) {
+                    /* Score Preload */
+                    autoScore.AutonScore(out,1,1);
+                    autoScore.AutonIntake(-1.0,-out*0.2);
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+                    follower.followPath(goSetup2, true);
+                    setPathState(5);
                 }
                 break;
 
-                //Line 2
+
             case 5:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if(!follower.isBusy()) {
@@ -197,16 +187,26 @@ public class ComplexBlue extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Sample */
-                    sleep(wait);
                     autoScore.AutonIntake(0.0,0.0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(scorePickup2,true);
-                    setPathState(1);
+                    sleep(wait);
+                    setPathState(11);
+                }
+                break;
+            case 7:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+                if(!follower.isBusy()) {
+                    /* Score Preload */
+                    autoScore.AutonScore(out,1,1);
+                    autoScore.AutonIntake(-1.0,-out*0.2);
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+                    follower.followPath(goSetup3, true);
+                    setPathState(8);
                 }
                 break;
 
 
-            //Line 3
             case 8:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if(!follower.isBusy()) {
@@ -223,29 +223,54 @@ public class ComplexBlue extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Sample */
-                    sleep(wait);
                     autoScore.AutonIntake(0.0,0.0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(scorePickup3,true);
-                    setPathState(1);
+                    sleep(wait);
+                    setPathState(10);
+                }
+                break;
+            case 10:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+                if(!follower.isBusy()) {
+                    /* Score Preload */
+
+
+
+                    autoScore.AutonScore(2500,1,1);
+
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+
+                    setPathState(-1);
                 }
                 break;
 
-            case 10:
-                Pose LLpose;
-                LLpose = limelight.getPosition();
-                if (!(LLpose == null)) {
-                    correction = follower.pathBuilder()
-                            .addPath(new BezierLine(LLpose, scorePose))
-                            .setLinearHeadingInterpolation(LLpose.getHeading(), scorePose.getHeading())
+            case 11:
+                if(!follower.isBusy()) {
+                    correction = getRobotPoseFromCamera();
+                    adjustment = follower.pathBuilder()
+                            .addPath(new BezierLine(correction, scorePose))
+                            .setLinearHeadingInterpolation(correction.getHeading(), scorePose.getHeading())
                             .build();
-                    follower.followPath(correction);
-                    if (!follower.isBusy()) {
+                    follower.followPath(adjustment,true);
+                    if (line == 2) {
+                        line += 1;
+                        setPathState(7);
+                    }
+                    if (line == 1) {
+                        line += 1;
+                        setPathState(4);
+                    }
+                    if (line == 0) {
+                        line += 1;
                         setPathState(1);
                     }
-                } else{
-                    setPathState(1);
+
+
                 }
+
+break;
+
         }
     }
 
@@ -288,8 +313,41 @@ public class ComplexBlue extends OpMode {
         buildPaths();
         follower.setStartingPose(startPose);
 
-        intake.init(hardwareMap);
+
         autoScore.init(hardwareMap);
+        limelight = hardwareMap.get(Limelight3A.class, "Limelight");
+
+        limelight.pipelineSwitch(0);
+        imu = hardwareMap.get(IMU.class, "imu");
+        RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
+        imu.initialize(new IMU.Parameters(revHubOrientationOnRobot));
+
+        buildPaths();
+
+
+
+    }
+    private Pose getRobotPoseFromCamera() {
+        //Fill this out to get the robot Pose from the camera's output (apply any filters if you need to using follower.getPose()                       for fusion)
+        //Pedro Pathing has built-in KalmanFilter and LowPassFilter classes you can use for this
+        YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+        limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
+        LLResult result = limelight.getLatestResult();
+        if (result != null && result.isValid()) {
+            Pose3D botpose = result.getBotpose();
+            double x = botpose.getPosition().x;
+            double y= botpose.getPosition().y;
+            double yaw = botpose.getOrientation().getYaw();
+            double X = 72+(y*39.37);
+            double Y = 72-(x*39.37);
+
+            telemetry.addLine("valid");
+            telemetry.addData(" Pedro", "(" + X + ", " + Y + ")");
+            return new Pose(X, Y, yaw, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+        }else{
+            telemetry.addLine("Not valid");
+            return new Pose(0, 0, 0, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+        }
 
 
     }

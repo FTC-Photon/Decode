@@ -45,9 +45,11 @@ public class AprilTagDrive extends OpMode {
         floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         buildPaths();
         drive.init(hardwareMap);
+
     }
 
     public void buildPaths(){
+
         score = follower.pathBuilder() //Lazy Curve Generation
                 .addPath(new Path(new BezierLine(getRobotPoseFromCamera(), TARGET_LOCATION)))
                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
