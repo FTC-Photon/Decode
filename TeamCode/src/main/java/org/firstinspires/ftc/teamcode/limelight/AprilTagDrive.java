@@ -69,7 +69,7 @@ public class AprilTagDrive extends OpMode {
             rotate = gamepad1.right_stick_x;
 
         }
-
+        telemetry.update();
         drive.drive(forward, strafe, rotate);
     }
 
@@ -97,9 +97,7 @@ public class AprilTagDrive extends OpMode {
             return new Pose(X, Y, yaw, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
             }else{
                 telemetry.addLine("Not valid");
-            return new Pose(0, 0, 0, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
-            }
-
+            return new Pose(0, 0, 0, FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);}
 
     }
 }
