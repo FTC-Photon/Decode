@@ -49,7 +49,7 @@ public class ComplexBlue extends OpMode {
     long millis;
     int line = 0;
     double outtakepower = -0.1;
-    long wait = 200;
+    long wait = 400;
     double out = 1840;
     AutoScore autoScore = new AutoScore(); //intake and outtake to score???
 
@@ -124,7 +124,6 @@ public class ComplexBlue extends OpMode {
                     /* Score Preload */
 
                     autoScore.AutonScore(out,1,1);
-                    autoScore.AutonIntake(-1.0,-out*0.2);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(goSetup1, true);
                     setPathState(2);
@@ -162,7 +161,6 @@ public class ComplexBlue extends OpMode {
                 if(!follower.isBusy()) {
                     /* Score Preload */
                     autoScore.AutonScore(out,1,1);
-                    autoScore.AutonIntake(-1.0,-out*0.2);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(goSetup2, true);
                     setPathState(5);
@@ -199,7 +197,6 @@ public class ComplexBlue extends OpMode {
                 if(!follower.isBusy()) {
                     /* Score Preload */
                     autoScore.AutonScore(out,1,1);
-                    autoScore.AutonIntake(-1.0,-out*0.2);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(goSetup3, true);
                     setPathState(8);
