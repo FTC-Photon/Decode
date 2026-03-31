@@ -17,7 +17,7 @@ public class FieldOrientatedOpMode extends OpMode {
     MecanumDrive drive = new MecanumDrive();
     double forward, strafe, rotate;
     double intakePower, outtakePower, midPower;
-    boolean slideMode, slidePressed, driverMode, driverPressed = false;
+    boolean slideMode, slidePressed,driverMode, driverPressed = false;
 
     double outtakeSpeed;
     public AnalogInput floodgate;
@@ -41,7 +41,10 @@ public class FieldOrientatedOpMode extends OpMode {
 
     @Override
     public void loop() {
-        outtakeSpeed = 1840;
+        forward = gamepad1.left_stick_y;
+        strafe = -gamepad1.left_stick_x;
+        rotate = gamepad1.right_stick_x;
+       /* outtakeSpeed = 1840;
         if (driverMode) {
             forward = -gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
@@ -143,7 +146,7 @@ public class FieldOrientatedOpMode extends OpMode {
                 midPower = 0;
             }
         }
-
+*/
         // Floodgate Power Switch Amperage Measure
         double voltage = floodgate.getVoltage();
         String truncated_voltage = String.format("%.2f", voltage);
