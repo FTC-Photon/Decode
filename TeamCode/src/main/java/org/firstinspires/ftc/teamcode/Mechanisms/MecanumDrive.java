@@ -35,12 +35,13 @@ public class MecanumDrive {
     }
 
     public void drive(double forward, double strafe, double rotate){
+        double rotateSlow = rotate * 0.5;
        double frontLeftPower = forward - strafe + rotate;
         double backLeftPower = forward + strafe + rotate;
         double frontRightPower = forward + strafe - rotate;
         double backRightPower = forward - strafe - rotate;
 
-        double minPower = 0.2;
+        double minPower = 0.0;
         double maxPower = 1.0;
         double maxSpeed = 1.0;
 
@@ -49,10 +50,15 @@ public class MecanumDrive {
         maxPower = Math.max(maxPower, Math.abs(backRightPower));
         maxPower = Math.max(maxPower, Math.abs(frontRightPower));*/
 
-        double flPower = Math.max(minPower, frontLeftPower);
-        double frPower = Math.max(minPower,frontRightPower);
-        double blPower = Math.max(minPower,backLeftPower);
-        double brPower = Math.max(minPower, backRightPower);
+//        double flPower = Math.max(minPower, frontLeftPower);
+//        double frPower = Math.max(minPower,frontRightPower);
+//        double blPower = Math.max(minPower,backLeftPower);
+//        double brPower = Math.max(minPower, backRightPower);
+
+        double flPower = frontLeftPower;
+        double frPower = frontRightPower;
+        double blPower = backLeftPower;
+        double brPower = backRightPower;
 
 
         frontLeft.setPower(flPower);

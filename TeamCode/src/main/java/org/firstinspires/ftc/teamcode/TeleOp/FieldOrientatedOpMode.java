@@ -41,10 +41,10 @@ public class FieldOrientatedOpMode extends OpMode {
 
     @Override
     public void loop() {
-        forward = gamepad1.left_stick_y;
+        forward = -gamepad1.left_stick_y;
         strafe = -gamepad1.left_stick_x;
         rotate = gamepad1.right_stick_x;
-       /* outtakeSpeed = 1840;
+        outtakeSpeed = 1840;
         if (driverMode) {
             forward = -gamepad1.left_stick_y;
             strafe = -gamepad1.left_stick_x;
@@ -146,7 +146,7 @@ public class FieldOrientatedOpMode extends OpMode {
                 midPower = 0;
             }
         }
-*/
+
         // Floodgate Power Switch Amperage Measure
         double voltage = floodgate.getVoltage();
         String truncated_voltage = String.format("%.2f", voltage);
@@ -162,7 +162,7 @@ public class FieldOrientatedOpMode extends OpMode {
         telemetry.addData("Slide In Launch Mode: ",slideMode);
         telemetry.addData("Driver In Launch Mode: ",driverMode);
         telemetry.addData("Launcher Velocity", outtakeScore.getOuttakeVelocity());
-        telemetry.addData("Floodgate Measured Voltage Representation: ",truncated_voltage + "V");
+        //telemetry.addData("Floodgate Measured Voltage Representation: ",truncated_voltage + "V");
         telemetry.addData("Total Current Draw: ",truncated_amperage + "A");
         telemetry.update();
     }
