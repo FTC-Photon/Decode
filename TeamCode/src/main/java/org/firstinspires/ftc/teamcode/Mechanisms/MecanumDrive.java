@@ -35,7 +35,6 @@ public class MecanumDrive {
     }
 
     public void drive(double forward, double strafe, double rotate){
-        double rotateSlow = rotate * 0.5;
        double frontLeftPower = forward - strafe + rotate;
         double backLeftPower = forward + strafe + rotate;
         double frontRightPower = forward + strafe - rotate;
@@ -57,8 +56,8 @@ public class MecanumDrive {
 
         double flPower = frontLeftPower;
         double frPower = frontRightPower;
-        double blPower = backLeftPower;
-        double brPower = backRightPower;
+        double blPower = backLeftPower ;
+        double brPower = backRightPower ;
 
 
         frontLeft.setPower(flPower);
