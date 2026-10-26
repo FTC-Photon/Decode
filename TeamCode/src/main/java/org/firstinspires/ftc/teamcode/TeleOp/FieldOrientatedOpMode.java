@@ -24,14 +24,14 @@ public class FieldOrientatedOpMode extends OpMode {
 
     GoBildaPrismDriver prism;
     intake intakeHold = new intake(); //intake
-    Score outtakeScore = new Score(); //score
+    //Score outtakeScore = new Score(); //score
     Midtake midtake = new Midtake();
 
     @Override
     public void init() {
         drive.init(hardwareMap); //drive
         intakeHold.init(hardwareMap);//intake
-        outtakeScore.init(hardwareMap);//outtake
+       // outtakeScore.init(hardwareMap);//outtake
         midtake.init(hardwareMap);
         floodgate = hardwareMap.get(AnalogInput.class, "floodgate");
         slideMode = true;
@@ -158,10 +158,10 @@ public class FieldOrientatedOpMode extends OpMode {
         drive.drive(forward, strafe, rotate);
         intakeHold.intakeHold(intakePower);
         midtake.midtakeHold(midPower);
-        outtakeScore.outtakeScore(outtakePower);
+       // outtakeScore.outtakeScore(outtakePower);
         telemetry.addData("Slide In Launch Mode: ",slideMode);
         telemetry.addData("Driver In Launch Mode: ",driverMode);
-        telemetry.addData("Launcher Velocity", outtakeScore.getOuttakeVelocity());
+        //telemetry.addData("Launcher Velocity", outtakeScore.getOuttakeVelocity());
         //telemetry.addData("Floodgate Measured Voltage Representation: ",truncated_voltage + "V");
         telemetry.addData("Total Current Draw: ",truncated_amperage + "A");
         telemetry.update();
